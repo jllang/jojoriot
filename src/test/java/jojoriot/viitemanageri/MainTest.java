@@ -58,7 +58,9 @@ public class MainTest {
         // Teen aluksi epäonnistuvan testin testatakseni systeemiä:
         aloitaKaappaus();
         Main.main(null);
-        assertEquals("Hoi maailma!", standardiulostulo.toString().trim());
+//        assertEquals("Hoi maailma!", standardiulostulo.toString().trim());
+        // Ja sitten nopea korjaus:
+        assertEquals("Hei maailma!", standardiulostulo.toString().trim());
         lopetaKaappaus();
     }
 
