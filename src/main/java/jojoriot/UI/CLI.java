@@ -1,6 +1,7 @@
 package jojoriot.UI;
 
 import java.util.Scanner;
+import jojoriot.IO.IO;
 
 /**
  * 
@@ -8,19 +9,19 @@ import java.util.Scanner;
  */
 public final class CLI implements UI {
     
-    private final Scanner scanner;
+    private final IO io;
     
-    public CLI() {
-        scanner = new Scanner(System.in);
+    public CLI(IO io) {
+        this.io = io;
     };
     
     @Override
     public void start() {
-        System.out.println("Viitemanageri!");
+        io.print("Viitemanageri!\n");
         
         while (true) {
-            System.out.print("\n1. Lisää viite\n2. Poistu\n> ");
-            int command = Integer.parseInt(scanner.nextLine());
+            io.print("\n1. Lisää viite\n2. Poistu\n> ");
+            int command = io.readInt();
             
             switch (command) {
                 case 1:
@@ -34,7 +35,7 @@ public final class CLI implements UI {
     }
     
     public void addReference() {
-        System.out.print("Anna titteli: ");
-        String title = scanner.nextLine();
+        io.print("Anna titteli: ");
+        String title = io.readLine();
     }
 }
