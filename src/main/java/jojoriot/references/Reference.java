@@ -1,4 +1,3 @@
-
 package jojoriot.references;
 
 import java.util.Map;
@@ -33,7 +32,7 @@ public abstract class Reference {
      * first argument and the keys and values of all the obligatory fields.
      *
      * @param validFields   A set containing all the valid field keys.
-     * @param data          A map cntaining all the obligatory fields.
+     * @param data          A map containing all the obligatory fields.
      */
     Reference(final Set<String> validFields, final Map<String, String> data) {
         this.data = data;

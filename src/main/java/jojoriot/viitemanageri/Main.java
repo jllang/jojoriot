@@ -1,4 +1,3 @@
-
 package jojoriot.viitemanageri;
 import jojoriot.UI.CLI;
 
@@ -8,16 +7,12 @@ import jojoriot.UI.CLI;
  */
 
 public class Main {
-
-    
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
         CLI cli = new CLI();
-        
+        cli.start();
     }
-
 }
