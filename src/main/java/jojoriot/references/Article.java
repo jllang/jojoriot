@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jojoriot.references;
 
 import java.util.HashSet;
@@ -22,7 +16,7 @@ public class Article extends Reference {
      */
     private static final Set<String> VALID_FIELDS = new HashSet<>();
     
-    static{
+    static {
         VALID_FIELDS.add("author");
         VALID_FIELDS.add("title");
         VALID_FIELDS.add("journal");
@@ -34,6 +28,7 @@ public class Article extends Reference {
         VALID_FIELDS.add("note");
         VALID_FIELDS.add("key");
     }
+    
     /**
      * 
      * Required fields that will be created even if left empty:
@@ -50,17 +45,18 @@ public class Article extends Reference {
      * @param note
      * @param key 
      */
-    public Article(String author, String title, String journal, String year, String volume, String number, String pages, String month, String note, String key){
+    public Article(String author, String title, String journal, String year,
+            String volume, String number, String pages, String month,
+            String note, String key) {
         super(VALID_FIELDS);
         
-        //pakolliset kentät
+        // pakolliset kentät
         super.put("author", author);
         super.put("title", title);
         super.put("journal", journal);
         super.put("year", year);
         
-        
-        //ei oo pakko olla
+        // ei oo pakko olla
         if(!volume.equals(""))
             super.put("volume", volume);
         if(!volume.equals(""))
@@ -73,17 +69,21 @@ public class Article extends Reference {
             super.put("note", note);
         if(!volume.equals(""))
             super.put("key", key);
-        
     }
-    public Article(){
+    
+    public Article() {
         super(VALID_FIELDS);
     }
+    
     @Override
-    void checkvalue(final String key, final String value){
-        if((key.equals("author") || key.equals("title") || key.equals("journal") || key.equals("year")) && value.equals("")){
+    void checkvalue(final String key, final String value) {
+        if((key.equals("author") || key.equals("title")
+                || key.equals("journal") || key.equals("year"))
+                    && value.equals("")){
             throw new IllegalArgumentException("Pakollinen kenttä puuttuu");
         }
     }
+    
     /*
     public static Set<String> getFields(){
         return VALID_FIELDS;
