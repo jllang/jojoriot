@@ -72,6 +72,15 @@ public abstract class Reference {
         // epäkelvollisen kentän arvoa?
         return data.get(key);
     }
+    
+    /**
+     * Retrieves the whole data map.
+     * 
+     * @return The data map
+     */
+    public Map<String, String> getData() {
+        return data;
+    }
 
     /**
      * Removes a key-value-pair (or bibtex field) from the mapping.
