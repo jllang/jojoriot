@@ -7,7 +7,7 @@ description 'Käyttäjä voi tarkastella viittausta ihmisluettavassa muodossa'
 
 scenario "Käyttäjä tarkastelee viittausta", {
     given 'Käyttäjä valitsee viittausten esikatselun', {
-        io = new Stub("2")
+        io = new Stub("2", "3")
         session = new Session()
         ui = new CLI(io, session)
     }

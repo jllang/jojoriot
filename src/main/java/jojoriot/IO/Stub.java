@@ -25,12 +25,16 @@ public class Stub implements IO {
 
     @Override
     public int readInt() {
-        return Integer.parseInt(inputs[i++]);
+        return Integer.parseInt(readLine());
     }
 
     @Override
     public String readLine() {
-        return inputs[i++];
+        if (i < inputs.length) {
+            return inputs[i++];
+        } else {
+            return "";
+        }
     }
     
     public ArrayList<String> getPrints() {

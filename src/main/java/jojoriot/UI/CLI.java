@@ -27,7 +27,13 @@ public final class CLI implements UI {
         
         while (true) {
             io.print("\n1. Add reference\n2. Preview references\n3. Exit\n> ");
-            int command = io.readInt();
+            
+            int command;
+            try {
+                command = io.readInt();
+            } catch (NumberFormatException e) {
+                return;
+            }
             
             switch (command) {
                 case 1:
@@ -67,8 +73,6 @@ public final class CLI implements UI {
     }
     
     public void addReference() {
-        
-        
         io.print("Author: ");
         String author = io.readLine();
         
@@ -98,26 +102,25 @@ public final class CLI implements UI {
         
         io.print("Key: ");
         String key = io.readLine();
-        
+
         io.print("\n");
         
         Article art = null;
-        boolean failed = false;
+        boolean failed = false; // Used for something?
+
         try {
-            art = new Article(author, title, journal, year, volume, number, pages, month, note, key);
-        } catch (IllegalArgumentException e) {
-            failed = true;
-        }
-        
-        if(failed){
-            io.print("Adding reference failed!\n");
-        }else{
-            io.print("Reference added:\n");
+            
+            art = new Article(author, title, journal, year, volume,
+                    number, pages, month, note, key);
+            
             session.add(art);
             
+            io.print("Reference added:\n");
             printReference(art);
+            
+        } catch (IllegalArgumentException e) {
+            io.print("Adding refjoskuserence failed!\n");
+
         }
-        
-        
     }
 }

@@ -7,7 +7,8 @@ description 'Käyttäjä voi luoda uuden artikkeli-tyyppin viittauksen'
 
 scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
     given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
-        io = new Stub("1", "asd", "asd", "asd", "2014")
+        io = new Stub("1", "asd", "asd", "asd", "2014", "", "", "", "", "" ,
+            "", "3")
         session = new Session()
         ui = new CLI(io, session)
     }
@@ -23,7 +24,8 @@ scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
 
 scenario "artikkeli-tyypin viittauksen luominen epäonnistuu", {
     given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
-        io = new Stub("1", "asd", "asd", "asd", "asd")
+        io = new Stub("1", "asd", "asd", "asd", "", "", "", "", "", "" , "",
+            "3")
         session = new Session()
         ui = new CLI(io, session)
     }
@@ -33,7 +35,7 @@ scenario "artikkeli-tyypin viittauksen luominen epäonnistuu", {
     }
 
     then 'viittauksen luominen epäonnistuu', {
-        io.getPrints().shouldHave("?")
+        io.getPrints().shouldHave("Adding reference failed!")
     }
 }
 
