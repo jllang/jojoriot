@@ -18,7 +18,7 @@ scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
     }
 
     then 'viittauksen luominen onnistuu', {
-        io.getPrints().shouldHave("Reference added!")
+        io.getPrints().shouldHave("Reference added:")
     }
 }
 
