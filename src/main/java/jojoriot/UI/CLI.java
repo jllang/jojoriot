@@ -119,7 +119,7 @@ public final class CLI implements UI {
             printReference(art);
             
         } catch (IllegalArgumentException e) {
-            io.print("Adding refjoskuserence failed!\n");
+            io.print("Adding reference failed!\n");
 
         }
     }

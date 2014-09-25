@@ -1,6 +1,7 @@
 package jojoriot.references;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public abstract class Reference {
     /**
      * A key-value-mapping containing the bibtex data of this reference object.
      */
-    private final Map<String, String> data = new HashMap<String, String>();
+    private final LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 
     /**
      * Creates a new Reference consisting of the valid fields specified as the
