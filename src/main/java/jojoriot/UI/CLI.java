@@ -22,7 +22,7 @@ public final class CLI implements UI {
         io.print("Viitemanageri!\n");
         
         while (true) {
-            io.print("\n1. Lisää viite\n2. Poistu\n> ");
+            io.print("\n1. Add reference\n2. Preview references\n3. Exit\n> ");
             int command = io.readInt();
             
             switch (command) {
@@ -31,6 +31,9 @@ public final class CLI implements UI {
                     break;
                     
                 case 2:
+                    break;
+                    
+                case 3:
                     return;
             }
         }
@@ -50,5 +53,7 @@ public final class CLI implements UI {
         String year = io.readLine();
         
         // session.add(new Reference());
+        
+        io.print("Reference added!\n");
     }
 }
