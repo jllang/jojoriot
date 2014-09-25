@@ -1,7 +1,10 @@
 package jojoriot.UI;
 
+import java.util.ArrayList;
+import java.util.Map;
 import jojoriot.IO.IO;
 import jojoriot.references.Article;
+import jojoriot.references.Reference;
 import jojoriot.viitemanageri.Session;
 
 /**
@@ -32,12 +35,35 @@ public final class CLI implements UI {
                     break;
                     
                 case 2:
+                    previewReferences();
                     break;
                     
                 case 3:
                     return;
             }
         }
+    }
+    
+    private void printReference(Reference ref) {
+       
+        Map<String, String> referenceData = ref.getData();
+        
+        for(Map.Entry<String, String> entry : referenceData.entrySet()) {
+            io.print( entry.getKey() + ": " + entry.getValue() +" " );
+            io.print("\n");
+        }
+        
+    }
+    
+    public void previewReferences() {
+        
+        ArrayList<Reference> references = session.getReferences();
+        
+        for(Reference ref : references) {
+            printReference(ref);
+            io.print("\n");
+        }
+        
     }
     
     public void addReference() {
@@ -73,6 +99,8 @@ public final class CLI implements UI {
         io.print("Key: ");
         String key = io.readLine();
         
+        io.print("\n");
+        
         Article art = null;
         boolean failed = false;
         try {
@@ -84,8 +112,10 @@ public final class CLI implements UI {
         if(failed){
             io.print("Adding reference failed!\n");
         }else{
-            io.print("Reference added!\n");
+            io.print("Reference added:\n");
             session.add(art);
+            
+            printReference(art);
         }
         
         

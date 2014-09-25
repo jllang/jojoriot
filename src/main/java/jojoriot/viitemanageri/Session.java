@@ -18,6 +18,10 @@ public class Session {
         references.add(ref);
     }
     
+    public ArrayList<Reference> getReferences() {
+        return references;
+    }
+    
     public String preview() {
         return "";
     }
