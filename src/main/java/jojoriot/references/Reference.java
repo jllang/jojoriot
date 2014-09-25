@@ -1,5 +1,6 @@
 package jojoriot.references;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public abstract class Reference {
     /**
      * A key-value-mapping containing the bibtex data of this reference object.
      */
-    private final Map<String, String> data;
+    private final Map<String, String> data = new HashMap<String, String>();
 
     /**
      * Creates a new Reference consisting of the valid fields specified as the
@@ -34,8 +35,8 @@ public abstract class Reference {
      * @param validFields   A set containing all the valid field keys.
      * @param data          A map containing all the obligatory fields.
      */
-    Reference(final Set<String> validFields, final Map<String, String> data) {
-        this.data = data;
+    Reference(final Set<String> validFields) {
+        //this.data = data;
         this.validFields = validFields;
     }
 

@@ -1,6 +1,7 @@
 package jojoriot.UI;
 
 import jojoriot.IO.IO;
+import jojoriot.references.Article;
 import jojoriot.viitemanageri.Session;
 
 /**
@@ -40,6 +41,8 @@ public final class CLI implements UI {
     }
     
     public void addReference() {
+        
+        
         io.print("Author: ");
         String author = io.readLine();
         
@@ -52,8 +55,39 @@ public final class CLI implements UI {
         io.print("Year: ");
         String year = io.readLine();
         
-        // session.add(new Reference());
+        io.print("Volume: ");
+        String volume = io.readLine();
         
-        io.print("Reference added!\n");
+        io.print("Number: ");
+        String number = io.readLine();
+        
+        io.print("Pages: ");
+        String pages = io.readLine();
+        
+        io.print("Month: ");
+        String month = io.readLine();
+        
+        io.print("Note: ");
+        String note = io.readLine();
+        
+        io.print("Key: ");
+        String key = io.readLine();
+        
+        Article art = null;
+        boolean failed = false;
+        try {
+            art = new Article(author, title, journal, year, volume, number, pages, month, note, key);
+        } catch (IllegalArgumentException e) {
+            failed = true;
+        }
+        
+        if(failed){
+            io.print("Adding reference failed!\n");
+        }else{
+            io.print("Reference added!\n");
+            session.add(art);
+        }
+        
+        
     }
 }
