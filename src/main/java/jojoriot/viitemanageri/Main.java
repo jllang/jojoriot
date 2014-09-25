@@ -13,7 +13,8 @@ public class Main {
      */
     public static void main(String[] args) {
         Console io = new Console();
-        CLI ui = new CLI(io);
+        Session session = new Session();
+        CLI ui = new CLI(io, session);
         
         ui.start();
     }

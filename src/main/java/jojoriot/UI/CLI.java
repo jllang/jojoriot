@@ -1,7 +1,7 @@
 package jojoriot.UI;
 
-import java.util.Scanner;
 import jojoriot.IO.IO;
+import jojoriot.viitemanageri.Session;
 
 /**
  * 
@@ -10,9 +10,11 @@ import jojoriot.IO.IO;
 public final class CLI implements UI {
     
     private final IO io;
+    private final Session session;
     
-    public CLI(IO io) {
+    public CLI(IO io, Session session) {
         this.io = io;
+        this.session = session;
     };
     
     @Override
@@ -35,7 +37,18 @@ public final class CLI implements UI {
     }
     
     public void addReference() {
-        io.print("Anna titteli: ");
+        io.print("Author: ");
+        String author = io.readLine();
+        
+        io.print("Title: ");
         String title = io.readLine();
+        
+        io.print("Journal: ");
+        String journal = io.readLine();
+        
+        io.print("Year: ");
+        String year = io.readLine();
+        
+        // session.add(new Reference());
     }
 }
