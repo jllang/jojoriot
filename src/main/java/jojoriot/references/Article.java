@@ -59,21 +59,18 @@ public class Article extends Reference {
         // ei oo pakko olla
         if(!volume.equals(""))
             super.put("volume", volume);
-        if(!volume.equals(""))
+        if(!number.equals(""))
             super.put("number", number);
-        if(!volume.equals(""))
+        if(!pages.equals(""))
             super.put("pages", pages);
-        if(!volume.equals(""))
+        if(!month.equals(""))
             super.put("month", month);
-        if(!volume.equals(""))
+        if(!note.equals(""))
             super.put("note", note);
-        if(!volume.equals(""))
+        if(!key.equals(""))
             super.put("key", key);
     }
     
-    public Article() {
-        super(VALID_FIELDS);
-    }
     
     @Override
     void checkvalue(final String key, final String value) {
