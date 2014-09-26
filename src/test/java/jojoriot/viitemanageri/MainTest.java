@@ -1,69 +1,58 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jojoriot.viitemanageri;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
+import jojoriot.IO.*;
+import jojoriot.UI.*;
+import jojoriot.references.*;
+import jojoriot.viitemanageri.*;
 
 /**
  *
  * @author John Lång <jllang@cs.helsinki.fi>
  */
 public class MainTest {
+    private Stub io;
 
-    /**
-     * Virta, johon testattavan Main-luokan komentorivitulosteet ohjataan.
-     */
-    private static ByteArrayOutputStream standardiulostulo;
-    // Myöhemmin voidaan ehkä tarvita myös tätä:
-//    private static ByteArrayOutputStream virheulostulo;
-
-    public MainTest() {
-    }
-
-    @BeforeClass
-    public static void setupClass() {
-        standardiulostulo   = new ByteArrayOutputStream();
-//        virheulostulo       = new ByteArrayOutputStream();
-    }
-
-    /**
-     * Uudelleenohjaa System.outin staattisessa kentässä <em>standardiulostulo
-     * </em> olevaan virtaan, jotta ohjelman komentorivitulosteita voidaan
-     * testata.
-     */
-    private static void aloitaKaappaus() {
-        System.setOut(new PrintStream(standardiulostulo));
-//        System.setErr(new PrintStream(virheulostulo));
-    }
-
-    /**
-     * Poistaa System.outin uudelleenohjauksen.
-     */
-    private static void lopetaKaappaus() {
-        System.setOut(null);
-//        System.setErr(null);
+    private void start(String... inputs) {
+        io = new Stub(inputs);
+        
+        Session session = new Session();
+        CLI ui = new CLI(io, session);
+        ui.start();
     }
 
     @Test
-    public void testMain() {
-        /*
-        // Teen aluksi epäonnistuvan testin testatakseni systeemiä:
-        aloitaKaappaus();
-        Main.main(null);
-//        assertEquals("Hoi maailma!", standardiulostulo.toString().trim());
-        // Ja sitten nopea korjaus:
-        assertEquals("Hei maailma!", standardiulostulo.toString().trim());
-        lopetaKaappaus();
-        */
+    public void addsReference() {
+        start("1", "asd", "asd", "asd", "2014", "asd", "asd", "asd", "asd", "asd", "asd", "3");
+        assertTrue(io.getPrints().contains("Reference added:\n"));
     }
 
+    @Test
+    public void invalidReferenceNotAdded() {
+        start("1", "asd", "asd", "asd", "", "", "", "", "", "" , "", "3");
+        assertTrue(io.getPrints().contains("Adding reference failed!\n"));
+    }
+
+    @Test
+    public void previewPrintsCorrectly() {
+        start("1", "asd", "asd", "asd", "2014", "", "", "", "", "", "", "2", "3");
+        assertTrue(io.getPrints().contains("author: asd\n"));
+        assertTrue(io.getPrints().contains("title: asd\n"));
+        assertTrue(io.getPrints().contains("journal: asd\n"));
+        assertTrue(io.getPrints().contains("year: 2014\n"));
+    }
+
+    @Test
+    public void krapulasaatana() {
+        Article asd = new Article("asd", "asd", "asd", "2014", "asd", "asd", "asd", "asd", "asd", "asd");
+        asd.delete("volume");
+        asd.get("title");
+
+        Session s = new Session();
+        s.preview();
+    }
 }
+

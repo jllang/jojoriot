@@ -51,25 +51,20 @@ public final class CLI implements UI {
     }
     
     private void printReference(Reference ref) {
-       
         Map<String, String> referenceData = ref.getData();
         
         for(Map.Entry<String, String> entry : referenceData.entrySet()) {
-            io.print( entry.getKey() + ": " + entry.getValue() +" " );
-            io.print("\n");
+            io.print(entry.getKey() + ": " + entry.getValue() + "\n");
         }
-        
     }
     
     public void previewReferences() {
-        
         ArrayList<Reference> references = session.getReferences();
         
         for(Reference ref : references) {
             printReference(ref);
             io.print("\n");
         }
-        
     }
     
     public void addReference() {
