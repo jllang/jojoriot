@@ -100,6 +100,14 @@ public abstract class Reference {
     public void delete(final String key) {
         data.remove(key);
     }
+    
+    /**
+     * 
+     * @return identifier String
+     */
+    protected String getIdentifier(){
+        return identifier;
+    }
 
     /**
      * The purpose of this hook method is to ensure that the value being added
@@ -112,5 +120,11 @@ public abstract class Reference {
      */
     abstract void checkvalue(final String key, final String value)
             throws IllegalArgumentException;
-
+    
+    /**
+     * Builds and returns a BibText formatted reference
+     * 
+     * @return BibText formatted String
+     */
+    public abstract String toBibtextString();
 }

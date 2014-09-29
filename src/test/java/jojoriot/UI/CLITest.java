@@ -53,8 +53,8 @@ public class CLITest {
      * Tests that the exiting line is on the correct line of the output.
      */
     @Test
-    public void pressing3OnMenuExits() {
-        setupTest("3", new Session());
+    public void pressing4OnMenuExits() {
+        setupTest("4", new Session());
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");

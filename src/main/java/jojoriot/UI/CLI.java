@@ -28,7 +28,7 @@ public final class CLI implements UI {
     public void start() {
         out.print("Viitemanageri!\n");
         while (true) {
-            out.print("\n1. Add reference\n2. Preview references\n3. Exit\n> ");
+            out.print("\n1. Add reference\n2. Preview references\n3. Preview references in BibText format\n4. Exit\n> ");
 
             final int command;
             try {
@@ -46,6 +46,9 @@ public final class CLI implements UI {
                     previewReferences();
                     break;
                 case 3:
+                    previewBibtext();
+                    break;
+                case 4:
                     out.print("Thank you for using Viitemanageri!");
                     return;
                 default:
@@ -68,6 +71,14 @@ public final class CLI implements UI {
         for(final Reference ref : references) {
             printReference(ref);
             out.print("\n");
+        }
+    }
+    public void previewBibtext(){
+        final ArrayList<Reference> references = session.getReferences();
+
+        for(final Reference ref : references) {
+            
+            out.print(ref.toBibtextString() + "\n");
         }
     }
 
