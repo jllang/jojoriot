@@ -24,7 +24,7 @@ public abstract class Reference {
     //private final Set<String> validFields;
     private final List<String> requiredFields;
     private final List<String> optionalFields;
-    
+
     /**
      * A code that identifies each BibText references.
      * Entered by user.
@@ -100,7 +100,7 @@ public abstract class Reference {
     public void delete(final String key) {
         data.remove(key);
     }
-    
+
 
     /**
      * The purpose of this hook method is to ensure that the value being added
@@ -113,30 +113,21 @@ public abstract class Reference {
      */
     abstract void checkvalue(final String key, final String value)
             throws IllegalArgumentException;
-    
+
     /**
      * Builds and returns a BibText formatted reference.
-     * 
-     * @return BibText formatted String
+     * @return
      */
-    public abstract String toBibtextString();
-    
-    /**
-     * Builds a BibText formatted reference based on article type
-     * given by child class.
-     * 
-     * @return 
-     */
-    protected String constructBibtext(String referenceType){
+    public final String toBibtexString(){
         StringBuilder sb = new StringBuilder(32);
         final Map<String, String> referenceData = getData();
-        
+
         sb.append("@");
-        sb.append(referenceType);
+        sb.append(getClass().getSimpleName());
         sb.append("{");
         sb.append(identifier);
         sb.append(",\n");
-        
+
         for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
             if(!entry.getValue().equals("")){
                 sb.append(entry.getKey());
@@ -144,11 +135,11 @@ public abstract class Reference {
                 sb.append(entry.getValue());
                 sb.append("},\n");
             }
-            
+
         }
-        
+
         sb.append("}");
-        
+
         return sb.toString();
     }
 }

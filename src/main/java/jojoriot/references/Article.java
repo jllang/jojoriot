@@ -11,14 +11,14 @@ import java.util.Map.Entry;
  * @author Jouko
  */
 public class Article extends Reference {
-    
+
     /**
      * Set of acceptable fields
-     * 
+     *
      */
     public static final ArrayList<String> REQUIRED_FIELDS = new ArrayList<String>();
     public static final ArrayList<String> OPTIONAL_FIELDS = new ArrayList<String>();
-    
+
     static {
         REQUIRED_FIELDS.add("author");
         REQUIRED_FIELDS.add("title");
@@ -31,33 +31,33 @@ public class Article extends Reference {
         OPTIONAL_FIELDS.add("note");
         OPTIONAL_FIELDS.add("key");
     }
-    
+
     /**
-     * 
+     *
      * @param identifier
      * @param requiredFields
-     * @param optionalFields 
+     * @param optionalFields
      */
     public Article(String identifier, LinkedHashMap<String, String> requiredFields, LinkedHashMap<String, String> optionalFields) {
         super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS);
-        
+
         // pakolliset kentät
         for(Entry<String, String> entry : requiredFields.entrySet()) {
             entry.getKey();
             super.put(entry.getKey(), entry.getValue());
         }
-        
+
         // valinnaiset kentät
         for(Entry<String, String> entry : optionalFields.entrySet()) {
             entry.getKey();
             super.put(entry.getKey(), entry.getValue());
         }
-        
-        
-     
+
+
+
     }
-    
-    
+
+
     @Override
     void checkvalue(final String key, final String value) {
         if((key.equals("author") || key.equals("title")
@@ -66,19 +66,14 @@ public class Article extends Reference {
             throw new IllegalArgumentException("Pakollinen kenttä puuttuu");
         }
     }
-    @Override
-    public String toBibtextString(){
-        
-        return super.constructBibtext("article");
-    }
 
     public static ArrayList<String> getRequiredFields(){
         return REQUIRED_FIELDS;
     }
-    
-    
+
+
     public static ArrayList<String> getOPtionalFields(){
         return OPTIONAL_FIELDS;
     }
-    
+
 }
