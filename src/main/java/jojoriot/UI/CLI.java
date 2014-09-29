@@ -1,10 +1,10 @@
 package jojoriot.UI;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import jojoriot.IO.IO;
+import java.util.Scanner;
 import jojoriot.references.Article;
 import jojoriot.references.Reference;
 import jojoriot.viitemanageri.Session;
@@ -14,26 +14,27 @@ import jojoriot.viitemanageri.Session;
  */
 public final class CLI implements UI {
 
-    private final IO io;
+    private final Scanner in;
+    private final PrintStream out;
     private final Session session;
 
-    public CLI(final IO io, final Session session) {
-        this.io = io;
+    public CLI(final Scanner in, final PrintStream out, final Session session) {
+        this.in = in;
+        this.out = out;
         this.session = session;
     }
 
     @Override
     public void start() {
-        io.print("Viitemanageri!\n");
-
+        out.print("Viitemanageri!\n");
         while (true) {
-            io.print("\n1. Add reference\n2. Preview references\n3. Exit\n> ");
+            out.print("\n1. Add reference\n2. Preview references\n3. Exit\n> ");
 
             final int command;
             try {
-                command = io.readInt();
+                command = Integer.parseInt(in.nextLine());
             } catch (NumberFormatException e) {
-                io.print("Please input a number.");
+                out.print("Please input a number.");
                 continue;
             }
 
@@ -45,10 +46,10 @@ public final class CLI implements UI {
                     previewReferences();
                     break;
                 case 3:
-                    io.print("Thank you for using Viitemanageri!");
+                    out.print("Thank you for using Viitemanageri!");
                     return;
                 default:
-                    io.print("Unknown command.");
+                    out.print("Unknown command.");
             }
         }
     }
@@ -57,7 +58,7 @@ public final class CLI implements UI {
         final Map<String, String> referenceData = ref.getData();
 
         for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
-            io.print(entry.getKey() + ": " + entry.getValue() + "\n");
+            out.print(entry.getKey() + ": " + entry.getValue() + "\n");
         }
     }
 
@@ -66,59 +67,59 @@ public final class CLI implements UI {
 
         for(final Reference ref : references) {
             printReference(ref);
-            io.print("\n");
+            out.print("\n");
         }
     }
 
     public void addReference() {
-        
-        
+
+
         LinkedHashMap<String, String> requiredFields = new LinkedHashMap<String, String>();
         LinkedHashMap<String, String> optionalFields = new LinkedHashMap<String, String>();
-        
+
         for(String field : Article.REQUIRED_FIELDS) {
-            
+
             String value = "";
-            
+
             while(value.equals("")) {
-                io.print(field+"*: ");
-                value = io.readLine();
-                
+                out.print(field+"*: ");
+                value = in.nextLine();
+
                 if (value.equals("")) {
-                    io.print("Required field!\n");
+                    out.print("Required field!\n");
                 }
             }
-            
+
             requiredFields.put(field, value);
-        } 
-        
+        }
+
         for(String field : Article.OPTIONAL_FIELDS) {
-            io.print(field+": ");
-            String value = io.readLine();
-            
+            out.print(field+": ");
+            String value = in.nextLine();
+
             optionalFields.put(field, value);
-        } 
-        
-        
-        io.print("\n");
-        
+        }
+
+
+        out.print("\n");
+
         Article art = null;
 
         try {
-            
+
             art = new Article(requiredFields, optionalFields);
-            
+
             session.add(art);
-            
-            io.print("Reference added:\n");
+
+            out.print("Reference added:\n");
             printReference(art);
-            
+
         } catch (IllegalArgumentException e) {
-            io.print("Adding reference failed!\n");
+            out.print("Adding reference failed!\n");
 
         }
-        
-        
+
+
         /*
         io.print("Author: ");
         String author = io.readLine();
@@ -149,7 +150,7 @@ public final class CLI implements UI {
 
         io.print("Key: ");
         String key = io.readLine();
-                
+
                 */
 
         /*
@@ -172,7 +173,7 @@ public final class CLI implements UI {
             io.print("Adding reference failed!\n");
 
         }
-                
+
                 */
     }
 }

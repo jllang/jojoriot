@@ -1,5 +1,6 @@
 package jojoriot.viitemanageri;
-import jojoriot.IO.Console;
+import java.io.PrintStream;
+import java.util.Scanner;
 import jojoriot.UI.CLI;
 
 /**
@@ -12,9 +13,11 @@ public final class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        final Console io = new Console();
+        //final Console io = new Console();
+        final Scanner in = new Scanner(System.in);
+        final PrintStream out = new PrintStream(System.out);
         final Session session = new Session();
-        final CLI ui = new CLI(io, session);
+        final CLI ui = new CLI(in, out, session);
 
         ui.start();
     }

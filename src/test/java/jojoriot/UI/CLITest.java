@@ -1,64 +1,65 @@
 package jojoriot.UI;
 
-import java.util.ArrayList;
-
-import static org.junit.Assert.*;
-import org.junit.Before;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
+import jojoriot.viitemanageri.Session;
+import static org.junit.Assert.assertEquals;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
-import jojoriot.IO.*;
-import jojoriot.references.*;
-import jojoriot.viitemanageri.*;
-
 public class CLITest {
-    private Stub io;
 
-    private void start(String... inputs) {
-        io = new Stub(inputs);
-        
-        Session session = new Session();
-        CLI ui = new CLI(io, session);
-        ui.start();
+    /**
+     * Virta, johon testattavan Main-luokan komentorivitulosteet ohjataan.
+     */
+    private static ByteArrayOutputStream out;
+    private static CLI cli;
+    // Myöhemmin voidaan ehkä tarvita myös tätä:
+    // private static ByteArrayOutputStream virheulostulo;
+
+    public CLITest() {
     }
 
+    @BeforeClass
+    public static void setupClass() {
+        out = new ByteArrayOutputStream();
+        // virheulostulo = new ByteArrayOutputStream();
+    }
+
+    public static void setupTest(final String input, final Session session) {
+        cli = new CLI(new Scanner(input), new PrintStream(out), session);
+    }
+
+    /**
+     * Uudelleenohjaa System.outin staattisessa kentässä <em>out
+ </em> olevaan virtaan, jotta ohjelman komentorivitulosteita voidaan
+     * testata.
+     */
+    private static void startCapture() {
+        System.setOut(new PrintStream(out));
+        // System.setErr(new PrintStream(virheulostulo));
+    }
+
+    /**
+     * Poistaa System.outin uudelleenohjauksen.
+     */
+    private static void stopCapture() {
+        System.setOut(null);
+        // System.setErr(null);
+    }
+
+    /**
+     * Tests that the exiting line is on the correct line of the output.
+     */
     @Test
-    public void addsReference() {
-        start("1", "asd", "asd", "asd", "2014", "asd", "asd", "asd", "asd", "asd", "asd", "3");
-        assertTrue(io.getPrints().contains("Reference added:\n"));
+    public void pressing3OnMenuExits() {
+        setupTest("3", new Session());
+        startCapture();
+        cli.start();
+        String[] output = out.toString().split("\n");
+        assertEquals("> Thank you for using Viitemanageri!", output[5]);
+        stopCapture();
     }
 
-    @Test
-    public void invalidReferenceNotAdded() {
-        start("1", "asd", "asd", "asd", "", "", "", "", "", "" , "", "3");
-        assertTrue(io.getPrints().contains("Adding reference failed!\n"));
-    }
-
-    @Test
-    public void previewPrintsCorrectly() {
-        start("1", "asd", "asd", "asd", "2014", "", "", "", "", "", "", "2", "3");
-
-        ArrayList<String> prints = io.getPrints();
-        assertTrue(prints.contains("author: asd\n"));
-        assertTrue(prints.contains("title: asd\n"));
-        assertTrue(prints.contains("journal: asd\n"));
-        assertTrue(prints.contains("year: 2014\n"));
-    }
-
-    @Test
-    public void nonNumberCommandFails() {
-        start("a", "3");
-        assertTrue(io.getPrints().contains("Please input a number."));
-    }
-
-    @Test
-    public void numericNonCommandFails() {
-        start("4", "3");
-        assertTrue(io.getPrints().contains("Unknown command."));
-    }
-
-    @Test
-    public void programExitsNicely() {
-        start("3");
-        assertTrue(io.getPrints().contains("Thank you for using Viitemanageri!"));
-    }
 }

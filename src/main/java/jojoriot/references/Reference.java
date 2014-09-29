@@ -3,7 +3,6 @@ package jojoriot.references;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Reference is the parent class of every Bibtex reference type. It has a set of
@@ -58,9 +57,9 @@ public abstract class Reference {
             checkvalue(key, value);
             data.put(key, value);
         } else {
-            throw new IllegalArgumentException("Invalid field identifier for "
-                    + "reference type \"" + this.getClass().getSimpleName()
-                    + "\".");
+            throw new IllegalArgumentException("Invalid field identifier \"" +
+                    key + "\" for reference type \"" +
+                    this.getClass().getSimpleName() + "\".");
         }
     }
 
@@ -76,10 +75,10 @@ public abstract class Reference {
         // epäkelvollisen kentän arvoa?
         return data.get(key);
     }
-    
+
     /**
      * Retrieves the whole data map.
-     * 
+     *
      * @return The data map
      */
     public Map<String, String> getData() {
