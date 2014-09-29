@@ -8,111 +8,112 @@ import jojoriot.references.Reference;
 import jojoriot.viitemanageri.Session;
 
 /**
- * 
- * @author janne
+ * CLI is a textual implementation of User Interface.
  */
 public final class CLI implements UI {
-    
+
     private final IO io;
     private final Session session;
-    
-    public CLI(IO io, Session session) {
+
+    public CLI(final IO io, final Session session) {
         this.io = io;
         this.session = session;
-    };
-    
+    }
+
     @Override
     public void start() {
         io.print("Viitemanageri!\n");
-        
+
         while (true) {
             io.print("\n1. Add reference\n2. Preview references\n3. Exit\n> ");
-            
-            int command;
+
+            final int command;
             try {
                 command = io.readInt();
             } catch (NumberFormatException e) {
-                return;
+                io.print("Please input a number.");
+                continue;
             }
-            
+
             switch (command) {
                 case 1:
                     addReference();
                     break;
-                    
                 case 2:
                     previewReferences();
                     break;
-                    
                 case 3:
+                    io.print("Thank you for using Viitemanageri!");
                     return;
+                default:
+                    io.print("Unknown command.");
             }
         }
     }
-    
-    private void printReference(Reference ref) {
-        Map<String, String> referenceData = ref.getData();
-        
-        for(Map.Entry<String, String> entry : referenceData.entrySet()) {
+
+    private void printReference(final Reference ref) {
+        final Map<String, String> referenceData = ref.getData();
+
+        for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
             io.print(entry.getKey() + ": " + entry.getValue() + "\n");
         }
     }
-    
+
     public void previewReferences() {
-        ArrayList<Reference> references = session.getReferences();
-        
-        for(Reference ref : references) {
+        final ArrayList<Reference> references = session.getReferences();
+
+        for(final Reference ref : references) {
             printReference(ref);
             io.print("\n");
         }
     }
-    
+
     public void addReference() {
         io.print("Author: ");
         String author = io.readLine();
-        
+
         io.print("Title: ");
         String title = io.readLine();
-        
+
         io.print("Journal: ");
         String journal = io.readLine();
-        
+
         io.print("Year: ");
         String year = io.readLine();
-        
+
         io.print("Volume: ");
         String volume = io.readLine();
-        
+
         io.print("Number: ");
         String number = io.readLine();
-        
+
         io.print("Pages: ");
         String pages = io.readLine();
-        
+
         io.print("Month: ");
         String month = io.readLine();
-        
+
         io.print("Note: ");
         String note = io.readLine();
-        
+
         io.print("Key: ");
         String key = io.readLine();
 
         io.print("\n");
-        
+
         Article art = null;
         boolean failed = false; // Used for something?
 
         try {
-            
+
             art = new Article(author, title, journal, year, volume,
                     number, pages, month, note, key);
-            
+
             session.add(art);
-            
+
             io.print("Reference added:\n");
             printReference(art);
-            
+
         } catch (IllegalArgumentException e) {
             io.print("Adding reference failed!\n");
 
