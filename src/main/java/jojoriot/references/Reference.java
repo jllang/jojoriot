@@ -24,6 +24,12 @@ public abstract class Reference {
     //private final Set<String> validFields;
     private final List<String> requiredFields;
     private final List<String> optionalFields;
+    
+    /**
+     * A code that identifies each BibText references.
+     * Entered by user.
+     */
+    private final String identifier;
 
     /**
      * A key-value-mapping containing the bibtex data of this reference object.
@@ -38,9 +44,10 @@ public abstract class Reference {
      * @param optionalFields A set containing all the optional field keys
      * @param data          A map containing all the obligatory fields.
      */
-    Reference(final List<String> requiredFields, final List<String> optionalFields) {
+    Reference(final String identifier, final List<String> requiredFields, final List<String> optionalFields) {
         this.requiredFields = requiredFields;
         this.optionalFields = optionalFields;
+        this.identifier = identifier;
     }
 
     /**

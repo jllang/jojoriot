@@ -73,10 +73,21 @@ public final class CLI implements UI {
 
     public void addReference() {
 
-
+        String identifier = "";
         LinkedHashMap<String, String> requiredFields = new LinkedHashMap<String, String>();
         LinkedHashMap<String, String> optionalFields = new LinkedHashMap<String, String>();
+        
+        out.print("Mandatory field are marked with *\n");
+        
+        while(identifier.equals("")){
+            out.print("identifier*: ");
+            identifier = in.nextLine();
 
+            if (identifier.equals("")) {
+                out.print("Required field!\n");
+            }
+        }
+        
         for(String field : Article.REQUIRED_FIELDS) {
 
             String value = "";
@@ -107,7 +118,7 @@ public final class CLI implements UI {
 
         try {
 
-            art = new Article(requiredFields, optionalFields);
+            art = new Article(identifier, requiredFields, optionalFields);
 
             session.add(art);
 

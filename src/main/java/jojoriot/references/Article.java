@@ -33,22 +33,12 @@ public class Article extends Reference {
     
     /**
      * 
-     * Required fields that will be created even if left empty:
-     * @param author
-     * @param title
-     * @param journal
-     * @param year
-     * 
-     * Optional fields that won't be created if left empty:
-     * @param volume
-     * @param number
-     * @param pages
-     * @param month
-     * @param note
-     * @param key 
+     * @param identifier
+     * @param requiredFields
+     * @param optionalFields 
      */
-    public Article(LinkedHashMap<String, String> requiredFields, LinkedHashMap<String, String> optionalFields) {
-        super(REQUIRED_FIELDS, OPTIONAL_FIELDS);
+    public Article(String identifier, LinkedHashMap<String, String> requiredFields, LinkedHashMap<String, String> optionalFields) {
+        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS);
         
         // pakolliset kentät
         for(Entry<String, String> entry : requiredFields.entrySet()) {
