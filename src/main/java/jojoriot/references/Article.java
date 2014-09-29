@@ -69,26 +69,7 @@ public class Article extends Reference {
     @Override
     public String toBibtextString(){
         
-        StringBuilder sb = new StringBuilder(32);
-        final Map<String, String> referenceData = super.getData();
-        
-        sb.append("@article{");
-        sb.append(super.getIdentifier());
-        sb.append(",\n");
-        
-        for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
-            if(!entry.getValue().equals("")){
-                sb.append(entry.getKey());
-                sb.append(" = {");
-                sb.append(entry.getValue());
-                sb.append("},\n");
-            }
-            
-        }
-        
-        sb.append("}");
-        
-        return sb.toString();
+        return super.constructBibtext("article");
     }
 
     public static ArrayList<String> getRequiredFields(){

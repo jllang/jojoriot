@@ -101,13 +101,6 @@ public abstract class Reference {
         data.remove(key);
     }
     
-    /**
-     * 
-     * @return identifier String
-     */
-    protected String getIdentifier(){
-        return identifier;
-    }
 
     /**
      * The purpose of this hook method is to ensure that the value being added
@@ -122,9 +115,40 @@ public abstract class Reference {
             throws IllegalArgumentException;
     
     /**
-     * Builds and returns a BibText formatted reference
+     * Builds and returns a BibText formatted reference.
      * 
      * @return BibText formatted String
      */
     public abstract String toBibtextString();
+    
+    /**
+     * Builds a BibText formatted reference based on article type
+     * given by child class.
+     * 
+     * @return 
+     */
+    protected String constructBibtext(String referenceType){
+        StringBuilder sb = new StringBuilder(32);
+        final Map<String, String> referenceData = getData();
+        
+        sb.append("@");
+        sb.append(referenceType);
+        sb.append("{");
+        sb.append(identifier);
+        sb.append(",\n");
+        
+        for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
+            if(!entry.getValue().equals("")){
+                sb.append(entry.getKey());
+                sb.append(" = {");
+                sb.append(entry.getValue());
+                sb.append("},\n");
+            }
+            
+        }
+        
+        sb.append("}");
+        
+        return sb.toString();
+    }
 }
