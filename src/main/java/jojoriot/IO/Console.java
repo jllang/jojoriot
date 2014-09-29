@@ -6,11 +6,11 @@ import java.util.Scanner;
  *
  * @author riku
  */
-public class Console implements IO {
-    private Scanner scanner = new Scanner(System.in);
-    
+public final class Console implements IO {
+    private final Scanner scanner = new Scanner(System.in);
+
     @Override
-    public void print(String string) {
+    public void print(final String string) {
         System.out.print(string);
     }
 
