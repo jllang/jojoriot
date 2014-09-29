@@ -1,6 +1,9 @@
 package jojoriot.references;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -14,19 +17,20 @@ public class Article extends Reference {
      * Set of acceptable fields
      * 
      */
-    private static final Set<String> VALID_FIELDS = new HashSet<>();
+    public static final ArrayList<String> REQUIRED_FIELDS = new ArrayList<String>();
+    public static final ArrayList<String> OPTIONAL_FIELDS = new ArrayList<String>();
     
     static {
-        VALID_FIELDS.add("author");
-        VALID_FIELDS.add("title");
-        VALID_FIELDS.add("journal");
-        VALID_FIELDS.add("year");
-        VALID_FIELDS.add("volume");
-        VALID_FIELDS.add("number");
-        VALID_FIELDS.add("pages");
-        VALID_FIELDS.add("month");
-        VALID_FIELDS.add("note");
-        VALID_FIELDS.add("key");
+        REQUIRED_FIELDS.add("author");
+        REQUIRED_FIELDS.add("title");
+        REQUIRED_FIELDS.add("journal");
+        REQUIRED_FIELDS.add("year");
+        OPTIONAL_FIELDS.add("volume");
+        OPTIONAL_FIELDS.add("number");
+        OPTIONAL_FIELDS.add("pages");
+        OPTIONAL_FIELDS.add("month");
+        OPTIONAL_FIELDS.add("note");
+        OPTIONAL_FIELDS.add("key");
     }
     
     /**
@@ -45,30 +49,23 @@ public class Article extends Reference {
      * @param note
      * @param key 
      */
-    public Article(String author, String title, String journal, String year,
-            String volume, String number, String pages, String month,
-            String note, String key) {
-        super(VALID_FIELDS);
+    public Article(LinkedHashMap<String, String> requiredFields, LinkedHashMap<String, String> optionalFields) {
+        super(REQUIRED_FIELDS, OPTIONAL_FIELDS);
         
         // pakolliset kentät
-        super.put("author", author);
-        super.put("title", title);
-        super.put("journal", journal);
-        super.put("year", year);
+        for(Entry<String, String> entry : requiredFields.entrySet()) {
+            entry.getKey();
+            super.put(entry.getKey(), entry.getValue());
+        }
         
-        // ei oo pakko olla
-        if(!volume.equals(""))
-            super.put("volume", volume);
-        if(!number.equals(""))
-            super.put("number", number);
-        if(!pages.equals(""))
-            super.put("pages", pages);
-        if(!month.equals(""))
-            super.put("month", month);
-        if(!note.equals(""))
-            super.put("note", note);
-        if(!key.equals(""))
-            super.put("key", key);
+        // valinnaiset kentät
+        for(Entry<String, String> entry : optionalFields.entrySet()) {
+            entry.getKey();
+            super.put(entry.getKey(), entry.getValue());
+        }
+        
+        
+     
     }
     
     
@@ -80,10 +77,14 @@ public class Article extends Reference {
             throw new IllegalArgumentException("Pakollinen kenttä puuttuu");
         }
     }
-    
-    /*
-    public static Set<String> getFields(){
-        return VALID_FIELDS;
+
+    public static ArrayList<String> getRequiredFields(){
+        return REQUIRED_FIELDS;
     }
-    */
+    
+    
+    public static ArrayList<String> getOPtionalFields(){
+        return OPTIONAL_FIELDS;
+    }
+    
 }

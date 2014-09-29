@@ -1,7 +1,9 @@
 package jojoriot.UI;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import jojoriot.IO.IO;
 import jojoriot.references.Article;
 import jojoriot.references.Reference;
@@ -68,6 +70,55 @@ public final class CLI implements UI {
     }
     
     public void addReference() {
+        
+        
+        LinkedHashMap<String, String> requiredFields = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> optionalFields = new LinkedHashMap<String, String>();
+        
+        for(String field : Article.REQUIRED_FIELDS) {
+            
+            String value = "";
+            
+            while(value.equals("")) {
+                io.print(field+"*: ");
+                value = io.readLine();
+                
+                if (value.equals("")) {
+                    io.print("Required field!\n");
+                }
+            }
+            
+            requiredFields.put(field, value);
+        } 
+        
+        for(String field : Article.OPTIONAL_FIELDS) {
+            io.print(field+": ");
+            String value = io.readLine();
+            
+            optionalFields.put(field, value);
+        } 
+        
+        
+        io.print("\n");
+        
+        Article art = null;
+
+        try {
+            
+            art = new Article(requiredFields, optionalFields);
+            
+            session.add(art);
+            
+            io.print("Reference added:\n");
+            printReference(art);
+            
+        } catch (IllegalArgumentException e) {
+            io.print("Adding reference failed!\n");
+
+        }
+        
+        
+        /*
         io.print("Author: ");
         String author = io.readLine();
         
@@ -97,7 +148,10 @@ public final class CLI implements UI {
         
         io.print("Key: ");
         String key = io.readLine();
+                
+                */
 
+        /*
         io.print("\n");
         
         Article art = null;
@@ -117,5 +171,7 @@ public final class CLI implements UI {
             io.print("Adding reference failed!\n");
 
         }
+                
+                */
     }
 }

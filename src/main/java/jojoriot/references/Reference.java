@@ -1,6 +1,7 @@
 package jojoriot.references;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,7 +22,9 @@ public abstract class Reference {
      * extending class as a constant for avoiding unnecessary repeated object
      * creations during constructor invocations.
      */
-    private final Set<String> validFields;
+    //private final Set<String> validFields;
+    private final List<String> requiredFields;
+    private final List<String> optionalFields;
 
     /**
      * A key-value-mapping containing the bibtex data of this reference object.
@@ -32,12 +35,13 @@ public abstract class Reference {
      * Creates a new Reference consisting of the valid fields specified as the
      * first argument and the keys and values of all the obligatory fields.
      *
-     * @param validFields   A set containing all the valid field keys.
+     * @param requiredFields   A set containing all the required field keys.
+     * @param optionalFields A set containing all the optional field keys
      * @param data          A map containing all the obligatory fields.
      */
-    Reference(final Set<String> validFields) {
-        //this.data = data;
-        this.validFields = validFields;
+    Reference(final List<String> requiredFields, final List<String> optionalFields) {
+        this.requiredFields = requiredFields;
+        this.optionalFields = optionalFields;
     }
 
     /**
@@ -50,7 +54,7 @@ public abstract class Reference {
      */
     public void put(final String key, final String value)
             throws IllegalArgumentException {
-        if (validFields.contains(key)) {
+        if (requiredFields.contains(key) || optionalFields.contains(key)) {
             checkvalue(key, value);
             data.put(key, value);
         } else {
@@ -102,4 +106,5 @@ public abstract class Reference {
      */
     abstract void checkvalue(final String key, final String value)
             throws IllegalArgumentException;
+
 }
