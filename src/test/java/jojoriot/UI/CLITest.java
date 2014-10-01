@@ -58,7 +58,7 @@ public class CLITest {
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
-        assertEquals("> Thank you for using Viitemanageri!", output[5]);
+        assertEquals("> Thank you for using Viitemanageri!", output[6]);
         stopCapture();
     }
 

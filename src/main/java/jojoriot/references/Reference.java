@@ -5,13 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Reference is the parent class of every Bibtex reference type. It has a set of
+ * Reference is the parent class of every BibTeX reference type. It has a set of
  * keys called valid fields in this project. This set depends on the reference
  * type which the extending class represents. A reference also contains a
  * key-value-mapping of the keys denoting field names and values. The methods
  * of reference object manipulate the state of this map.
- *
- * @author John Lång <jllang@cs.helsinki.fi>
  */
 public abstract class Reference {
 
@@ -21,18 +19,17 @@ public abstract class Reference {
      * extending class as a constant for avoiding unnecessary repeated object
      * creations during constructor invocations.
      */
-    //private final Set<String> validFields;
     private final List<String> requiredFields;
     private final List<String> optionalFields;
 
     /**
-     * A code that identifies each BibText references.
+     * A code that identifies each BibTeX references.
      * Entered by user.
      */
     private final String identifier;
 
     /**
-     * A key-value-mapping containing the bibtex data of this reference object.
+     * A key-value-mapping containing the BibTeX data of this reference object.
      */
     private final LinkedHashMap<String, String> data = new LinkedHashMap<>();
 
@@ -44,7 +41,8 @@ public abstract class Reference {
      * @param optionalFields A set containing all the optional field keys
      * @param data          A map containing all the obligatory fields.
      */
-    Reference(final String identifier, final List<String> requiredFields, final List<String> optionalFields) {
+    Reference(final String identifier, final List<String> requiredFields,
+            final List<String> optionalFields) {
         this.requiredFields = requiredFields;
         this.optionalFields = optionalFields;
         this.identifier = identifier;
@@ -53,15 +51,20 @@ public abstract class Reference {
     /**
      * Stores a key/value-pair into the reference object.
      *
-     * @param key   The name of the bibtex field to be stored in this reference
+     * @param key   The name of the BibTeX field to be stored in this reference
      * object.
-     * @param value The value of the bibtex field.
+     * @param value The value of the BibTeX field.
      * @throws IllegalArgumentException If the key-value-pair is invalid.
      */
     public void put(final String key, final String value)
             throws IllegalArgumentException {
         if (requiredFields.contains(key) || optionalFields.contains(key)) {
-            checkvalue(key, value);
+            if (requiredFields.contains(key) && value.equals("")) {
+                throw new IllegalArgumentException("Required field \"" + key +
+                        "\" missing for reference type \"" +
+                        this.getClass().getSimpleName() + "\".");
+            }
+            
             data.put(key, value);
         } else {
             throw new IllegalArgumentException("Invalid field identifier \"" +
@@ -73,7 +76,7 @@ public abstract class Reference {
     /**
      * Retrieves the value of the field specified by the given key.
      *
-     * @param key   Identifies the name of the bibtex field.
+     * @param key   Identifies the name of the BibTeX field.
      * @return      The value associated with the given key. <tt>null</tt> if
      * there is no such value.
      */
@@ -93,34 +96,27 @@ public abstract class Reference {
     }
 
     /**
-     * Removes a key-value-pair (or bibtex field) from the mapping.
+     * Removes a key-value-pair (or BibTeX field) from the mapping.
      *
      * @param key A key specifying which key-value-pair is to be removed.
      */
     public void delete(final String key) {
+        if (requiredFields.contains(key)) {
+            throw new IllegalArgumentException("Can't delete a required" +
+                    "field \"" + key + "\" from reference type \"" +
+                    this.getClass().getSimpleName() + "\".");
+        }
+        
         data.remove(key);
     }
 
-
-    /**
-     * The purpose of this hook method is to ensure that the value being added
-     * is valid. If it's not, the method throws an exception.
-     *
-     * @param key   The key corresponding to the bibtex field.
-     * @param value The value of this field.
-     * @throws IllegalArgumentException If the value doesn't meet its
-     * requirements.
-     */
-    abstract void checkvalue(final String key, final String value)
-            throws IllegalArgumentException;
-
     /**
      * Builds and returns a BibText formatted reference.
+     * 
      * @return
      */
     public final String toBibtexString(){
-        StringBuilder sb = new StringBuilder(32);
-        final Map<String, String> referenceData = getData();
+        final StringBuilder sb = new StringBuilder(32);
 
         sb.append("@");
         sb.append(getClass().getSimpleName());
@@ -128,14 +124,13 @@ public abstract class Reference {
         sb.append(identifier);
         sb.append(",\n");
 
-        for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
-            if(!entry.getValue().equals("")){
+        for (final Map.Entry<String, String> entry : data.entrySet()) {
+            if (!entry.getValue().equals("")) {
                 sb.append(entry.getKey());
                 sb.append(" = {");
                 sb.append(entry.getValue());
                 sb.append("},\n");
             }
-
         }
 
         sb.append("}");
