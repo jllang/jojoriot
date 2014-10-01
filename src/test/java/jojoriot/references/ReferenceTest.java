@@ -11,29 +11,33 @@ import static org.junit.Assert.*;
  * excluding put and checkValue.
  */
 public class ReferenceTest {
-    Article art;
+    Article article;
     LinkedHashMap<String, String> requiredFields;
     
     @Before
     public void setUp() {
-        requiredFields = new LinkedHashMap<String, String>();
+        requiredFields = new LinkedHashMap<>();
         
         requiredFields.put("author", "asd");
         requiredFields.put("title", "asd");
         requiredFields.put("journal", "asd");
         requiredFields.put("year", "asd");
         
-        art = new Article("asd", requiredFields);
+        article = new Article("asd", requiredFields);
     }
     
     @Test
-    public void bibTextinLuontiOnnistuu() {
-        assertEquals("@Article{asd,\nauthor = {asd},\ntitle = {asd},\njournal = {asd},\nyear = {asd},\n}", art.toBibtexString());
+    public void bibTeXinLuontiOnnistuu() {
+        assertEquals("@Article{asd,\n"
+                + "author = {asd},\n"
+                + "title = {asd},\n"
+                + "journal = {asd},\n"
+                + "year = {asd},\n}", article.toBibtexString());
     }
     
     @Test
     public void kaikenDatanSaaTuotua() {
-        Map<String, String> data = art.getData();
+        final Map<String, String> data = article.getData();
         for (final Map.Entry<String, String> entry : data.entrySet()) {
             assertTrue(requiredFields.containsKey(entry.getKey()));
             assertEquals(requiredFields.get(entry.getKey()), entry.getValue());
@@ -43,9 +47,6 @@ public class ReferenceTest {
     public class ReferenceImpl extends Reference {
         public ReferenceImpl() {
             super("", null, null);
-        }
-
-        public void checkvalue(String key, String value) throws IllegalArgumentException {
         }
     }
 }
