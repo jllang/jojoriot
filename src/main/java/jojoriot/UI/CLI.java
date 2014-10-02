@@ -28,8 +28,13 @@ public final class CLI implements UI {
     public void start() {
         out.print("Viitemanageri!\n");
         while (true) {
-            out.print("\n1. Add reference\n2. Preview references\n3. Preview references in BibText format\n4. Exit\n> ");
-
+            out.print("\n1. Add reference"
+                    + "\n2. Preview references"
+                    + "\n3. Preview references in BibTeX format"
+                    + "\n4. Save to file"
+                    + "\n5. Exit"
+                    + "\n> ");
+            
             final int command;
             try {
                 command = Integer.parseInt(in.nextLine());
@@ -49,6 +54,9 @@ public final class CLI implements UI {
                     previewBibtext();
                     break;
                 case 4:
+                    session.export("");
+                    break;
+                case 5:
                     out.print("Thank you for using Viitemanageri!");
                     return;
                 default:

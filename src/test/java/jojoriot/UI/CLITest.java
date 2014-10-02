@@ -64,77 +64,77 @@ public class CLITest {
      * Tests that the exiting line is on the correct line of the output.
      */
     @Test
-    public void pressing4OnMenuExits() {
-        setupTest("4", new Session());
+    public void pressing5OnMenuExits() {
+        setupTest("5", new Session());
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         stopCapture();
-        assertEquals("> Thank you for using Viitemanageri!", output[6]);
+        assertEquals("> Thank you for using Viitemanageri!", output[7]);
     }
 
     @Test
     public void pressing1AddsReference() {
-        setupTest("1\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n4", new Session());
+        setupTest("1\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n5", new Session());
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
         stopCapture();
-        assertEquals("Reference added:", output[8]);
+        assertEquals("Reference added:", output[9]);
     }
 
     @Test
     public void identifierMustNotBeEmpty() {
-        setupTest("1\n\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n4", new Session());
+        setupTest("1\n\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n5", new Session());
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
         stopCapture();
-        assertEquals("identifier*: Required field!", output[7]);
+        assertEquals("identifier*: Required field!", output[8]);
     }
 
     @Test
     public void invalidInputDoesNothing() {
-        setupTest("u\n4", new Session());
+        setupTest("u\n5", new Session());
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
         stopCapture();
-        assertEquals("> Please input a number.", output[6]);
+        assertEquals("> Please input a number.", output[7]);
     }
 
     @Test
     public void pressing2ShowsPreview() {
         Session session = getSessionWithArticle();
-        setupTest("2\n4", session);
+        setupTest("2\n5", session);
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
         stopCapture();
-        assertEquals(">     author: Esko", output[6]);
+        assertEquals(">     author: Esko", output[7]);
     }
 
     @Test
     public void pressing3ShowsBibtexPreview() {
         Session session = getSessionWithArticle();
-        setupTest("3\n4", session);
+        setupTest("3\n5", session);
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
         stopCapture();
-        assertEquals("    author = {Esko},", output[7]);
+        assertEquals("    author = {Esko},", output[8]);
     }
 
     @Test
     public void pressing0SaysUnknownCommand() {
         // Testaus kunniaan!
         Session session = new Session();
-        setupTest("0\n4\n", session);
+        setupTest("0\n5\n", session);
         startCapture();
         cli.start();
         String output = out.toString();
