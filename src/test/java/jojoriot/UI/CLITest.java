@@ -142,4 +142,28 @@ public class CLITest {
         stopCapture();
         assertTrue(output.contains("Unknown command."));
     }
+    
+    @Test
+    public void pressing4ExportsFile() {
+        Session session = getSessionWithArticle();
+        setupTest("4\ntesti.bibtex\n5", session);
+        startCapture();
+        cli.start();
+        String[] output = out.toString().split("\n");
+        System.out.println(output[0]);
+        stopCapture();
+        assertEquals("> File exported to: testi.bibtex", output[8]);
+    }
+    
+    @Test
+    public void invalidFilePathDoesNotCreateFile() {
+        Session session = getSessionWithArticle();
+        setupTest("4\n\n5", session);
+        startCapture();
+        cli.start();
+        String[] output = out.toString().split("\n");
+        System.out.println(output[0]);
+        stopCapture();
+        assertEquals("> Exporting bibtex file failed!", output[8]);
+    }
 }

@@ -77,7 +77,7 @@ public final class CLI implements UI {
         }
     }
 
-    public void previewReferences() {
+    private void previewReferences() {
         final ArrayList<Reference> references = session.getReferences();
 
         for(final Reference ref : references) {
