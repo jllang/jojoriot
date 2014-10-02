@@ -18,17 +18,7 @@ public class CLITest {
      */
     private static ByteArrayOutputStream out;
     private static CLI cli;
-    // Myöhemmin voidaan ehkä tarvita myös tätä:
     // private static ByteArrayOutputStream virheulostulo;
-
-    public CLITest() {
-    }
-
-//    @BeforeClass
-//    public static void setupClass() {
-//        out = new ByteArrayOutputStream();
-//        // virheulostulo = new ByteArrayOutputStream();
-//    }
 
     public static void setupTest(final String input, final Session session) {
         out = new ByteArrayOutputStream();
@@ -94,7 +84,7 @@ public class CLITest {
     }
     
     @Test
-    public void requiredFieldsMustNotBeEmpty() {
+    public void identifierMustNotBeEmpty() {
         setupTest("1\n\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n4", new Session());
         startCapture();
         cli.start();

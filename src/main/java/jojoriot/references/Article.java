@@ -45,5 +45,12 @@ public class Article extends Reference {
         for (final Entry<String, String> entry : fields.entrySet()) {
             super.put(entry.getKey(), entry.getValue());
         }
+        
+        for (String field : REQUIRED_FIELDS) {
+            if (super.get(field) == null) {
+                throw new IllegalArgumentException("Missing required field \""
+                        + field + "\".");
+            }
+        }
     }
 }

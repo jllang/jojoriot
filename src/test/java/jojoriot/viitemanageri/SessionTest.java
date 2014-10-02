@@ -18,8 +18,14 @@ public class SessionTest {
     public void setUp() {
         session = new Session();
         
-        reference = new Article("test",
-                new LinkedHashMap<String, String>());
+        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+        fields.put("author", "asd");
+        fields.put("title", "asd");
+        fields.put("journal", "title");
+        fields.put("year", "asd");
+        fields.put("volume", "asd");
+        
+        reference = new Article("test", fields);
     }
     
     @Test
