@@ -25,6 +25,14 @@ public class Session {
     public void add(final Reference ref) {
         references.add(ref);
     }
+    
+    /**
+     * Removes a reference from session
+     * @param ref 
+     */
+    public void remove(final Reference ref) {
+        references.remove(ref);
+    }
 
     /**
      * 
