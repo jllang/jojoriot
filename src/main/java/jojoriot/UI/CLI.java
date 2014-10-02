@@ -62,7 +62,8 @@ public final class CLI implements UI {
 
         for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
             if (!entry.getValue().isEmpty()) {
-                out.print(entry.getKey() + ": " + entry.getValue() + "\n");
+                out.print("    " + entry.getKey() + ": " + entry.getValue()
+                        + "\n");
             }
         }
     }
@@ -74,6 +75,7 @@ public final class CLI implements UI {
             printReference(ref);
         }
     }
+
     public void previewBibtext(){
         final ArrayList<Reference> references = session.getReferences();
 

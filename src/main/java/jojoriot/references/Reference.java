@@ -64,7 +64,7 @@ public abstract class Reference {
                         "\" missing for reference type \"" +
                         this.getClass().getSimpleName() + "\".");
             }
-            
+
             data.put(key, value);
         } else {
             throw new IllegalArgumentException("Invalid field identifier \"" +
@@ -106,13 +106,13 @@ public abstract class Reference {
                     "field \"" + key + "\" from reference type \"" +
                     this.getClass().getSimpleName() + "\".");
         }
-        
+
         data.remove(key);
     }
 
     /**
      * Builds and returns a BibText formatted reference.
-     * 
+     *
      * @return
      */
     public final String toBibtexString(){
@@ -126,6 +126,7 @@ public abstract class Reference {
 
         for (final Map.Entry<String, String> entry : data.entrySet()) {
             if (!entry.getValue().equals("")) {
+                sb.append("    ");
                 sb.append(entry.getKey());
                 sb.append(" = {");
                 sb.append(entry.getValue());
