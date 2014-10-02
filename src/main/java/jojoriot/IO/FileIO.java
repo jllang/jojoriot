@@ -34,4 +34,8 @@ public final class FileIO implements IO {
         return scanner.nextLine();
     }
 
+    public void close() {
+        pw.close();
+    }
+
 }

@@ -1,6 +1,13 @@
 package jojoriot.viitemanageri;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jojoriot.IO.FileIO;
 import jojoriot.references.Reference;
 
 /**
@@ -47,9 +54,15 @@ public class Session {
      * The contents of this file shall be overwritten.
      *
      * @param path Location of the file to be written into.
+     * @throws java.io.FileNotFoundException If the file given by the user was
+     * not found.
      */
-    public void export(final String path) {
-        // Tänne voi sitten kirjoitella jotain hauskaa koodia kun FileIO on
-        // valmis...
+    public void export(final String path) throws FileNotFoundException {
+        final File file = new File(path);
+        final PrintWriter pw = new PrintWriter(file);
+        for (final Reference reference : references) {
+            pw.println(reference.toBibtexString());
+        }
+        pw.close();
     }
 }
