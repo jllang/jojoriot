@@ -4,16 +4,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import jojoriot.references.Article;
 import jojoriot.references.Reference;
-import org.junit.After;
-import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class SessionTest {
     Session session;

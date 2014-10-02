@@ -1,9 +1,10 @@
 package jojoriot.references;
 
 import java.util.LinkedHashMap;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class ArticleTest {
     private Article article;

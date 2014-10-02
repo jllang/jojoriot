@@ -2,12 +2,8 @@ package jojoriot.viitemanageri;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import jojoriot.IO.FileIO;
 import jojoriot.references.Reference;
 
 /**

@@ -6,10 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Scanner;
 import jojoriot.references.Article;
 import jojoriot.viitemanageri.Session;
-import org.junit.Assert;
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class CLITest {
