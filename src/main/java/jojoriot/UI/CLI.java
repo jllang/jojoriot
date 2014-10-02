@@ -1,5 +1,6 @@
 package jojoriot.UI;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -54,7 +55,7 @@ public final class CLI implements UI {
                     previewBibtext();
                     break;
                 case 4:
-                    session.export("");
+                    exportBibtex();
                     break;
                 case 5:
                     out.print("Thank you for using Viitemanageri!");
@@ -141,6 +142,17 @@ public final class CLI implements UI {
 
         } catch (IllegalArgumentException e) {
             out.print("Adding reference failed!\n");
+        }
+    }
+    
+    public void exportBibtex() {
+        out.print("Enter filename:\n> ");
+        String filepath = in.nextLine();
+        try {
+            session.export(filepath);
+            out.print("File exported to: " + filepath + "\n");
+        } catch (IOException e) {
+            out.print("Exporting bibtex file failed!\n");
         }
     }
 }
