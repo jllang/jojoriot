@@ -7,35 +7,37 @@ description 'Käyttäjä voi luoda uuden artikkeli-tyyppin viittauksen'
 
 scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
     given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
-        io = new Stub("1", "asd", "asd", "asd", "2014", "", "", "", "", "" ,
-            "", "3")
+        out = new ByteArrayOutputStream()
+        scanner = new Scanner("1\nasd\nasd\nasd\nasd\n2014\n\n\n\n\n\n\n4")
         session = new Session()
-        ui = new CLI(io, session)
+        cli = new CLI(scanner, new PrintStream(out), session)
     }
 
     when 'tiedot viittaukseen syötetään oikein', {
-        ui.start()
+        cli.start()
     }
 
     then 'viittauksen luominen onnistuu', {
-        io.getPrints().shouldHave("Reference added:")
+        output = out.toString()
+        output.shouldHave("Reference added:")
     }
 }
 
 scenario "artikkeli-tyypin viittauksen luominen epäonnistuu", {
     given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
-        io = new Stub("1", "asd", "asd", "asd", "", "", "", "", "", "" , "",
-            "3")
+        out = new ByteArrayOutputStream()
+        scanner = new Scanner("1\nasd\nasd\nasd\nasd\n\n\nasd\n\n\n\n\n\n\n4")
         session = new Session()
-        ui = new CLI(io, session)
+        cli = new CLI(scanner, new PrintStream(out), session)
     }
 
-    when 'tiedot viittaukseen syötetään väärin', {
-        ui.start()
+    when 'pakollinen tieto yritetään olla laittamatta', {
+        cli.start()
     }
 
     then 'viittauksen luominen epäonnistuu', {
-        io.getPrints().shouldHave("Adding reference failed!")
+        output = out.toString()
+        output.shouldHave("Required field!")
     }
 }
 

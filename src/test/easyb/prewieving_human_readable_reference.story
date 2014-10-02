@@ -7,17 +7,19 @@ description 'Käyttäjä voi tarkastella viittausta ihmisluettavassa muodossa'
 
 scenario "Käyttäjä tarkastelee viittausta", {
     given 'Käyttäjä valitsee viittausten esikatselun', {
-        io = new Stub("2", "3")
+        out = new ByteArrayOutputStream()
+        scanner = new Scanner("1\nasd\nasd\nasd\nasd\nasd\n\n\n\n\n\n\n3\n4")
         session = new Session()
-        ui = new CLI(io, session)
+        cli = new CLI(scanner, new PrintStream(out), session)
     }
 
     when 'käyttäjä valitsee listasta halutun viittauksen', {
-        ui.start()
+        cli.start()
     }
 
     then 'viittaus näytetään oikeassa muodossa', {
-        io.getPrints().shouldHave("")
+        output = out.toString()
+        output.shouldHave("title: asd")
     }
 }
 
