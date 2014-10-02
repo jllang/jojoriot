@@ -49,4 +49,10 @@ public class ArticleTest {
     public void deletingFailsOnRequiredFields() {
         article.delete("author");
     }
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void constructorFailsOnMissingRequiredField() {
+        fields.remove("author");
+        article = new Article("test", fields);
+    }
 }
