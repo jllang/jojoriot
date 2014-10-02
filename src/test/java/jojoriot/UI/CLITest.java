@@ -52,7 +52,7 @@ public class CLITest {
         System.setOut(null);
         // System.setErr(null);
     }
-    
+
     private Article getTestArticle() {
         LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         fields.put("author", "Esko");
@@ -62,7 +62,7 @@ public class CLITest {
         Article article = new Article("esimerkki", fields);
         return article;
     }
-    
+
     private Session getSessionWithArticle() {
         Session session = new Session();
         session.add(getTestArticle());
@@ -81,7 +81,7 @@ public class CLITest {
         assertEquals("> Thank you for using Viitemanageri!", output[6]);
         stopCapture();
     }
-    
+
     @Test
     public void pressing1AddsReference() {
         setupTest("1\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n4", new Session());
@@ -92,7 +92,7 @@ public class CLITest {
         assertEquals("Reference added:", output[8]);
         stopCapture();
     }
-    
+
     @Test
     public void requiredFieldsMustNotBeEmpty() {
         setupTest("1\n\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n4", new Session());
@@ -114,7 +114,7 @@ public class CLITest {
         assertEquals("> Please input a number.", output[6]);
         stopCapture();
     }
-    
+
     @Test
     public void pressing2ShowsPreview() {
         Session session = getSessionWithArticle();
@@ -123,10 +123,10 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals("> author: Esko", output[6]);
+        assertEquals(">     author: Esko", output[6]);
         stopCapture();
     }
-    
+
     @Test
     public void pressing3ShowsBibtexPreview() {
         Session session = getSessionWithArticle();
@@ -135,7 +135,7 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals("author = {Esko},", output[7]);
+        assertEquals("    author = {Esko},", output[7]);
         stopCapture();
     }
 }
