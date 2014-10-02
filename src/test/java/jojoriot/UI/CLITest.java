@@ -6,7 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.Scanner;
 import jojoriot.references.Article;
 import jojoriot.viitemanageri.Session;
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -68,8 +69,8 @@ public class CLITest {
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
-        assertEquals("> Thank you for using Viitemanageri!", output[6]);
         stopCapture();
+        assertEquals("> Thank you for using Viitemanageri!", output[6]);
     }
 
     @Test
@@ -79,8 +80,8 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals("Reference added:", output[8]);
         stopCapture();
+        assertEquals("Reference added:", output[8]);
     }
 
     @Test
@@ -90,8 +91,8 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals("identifier*: Required field!", output[7]);
         stopCapture();
+        assertEquals("identifier*: Required field!", output[7]);
     }
 
     @Test
@@ -101,8 +102,8 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals("> Please input a number.", output[6]);
         stopCapture();
+        assertEquals("> Please input a number.", output[6]);
     }
 
     @Test
@@ -113,8 +114,8 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals(">     author: Esko", output[6]);
         stopCapture();
+        assertEquals(">     author: Esko", output[6]);
     }
 
     @Test
@@ -125,7 +126,20 @@ public class CLITest {
         cli.start();
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
-        assertEquals("    author = {Esko},", output[7]);
         stopCapture();
+        assertEquals("    author = {Esko},", output[7]);
+    }
+
+    @Test
+    public void pressing0SaysUnknownCommand() {
+        // Testaus kunniaan!
+        Session session = new Session();
+        setupTest("0\n4\n", session);
+        startCapture();
+        cli.start();
+        String output = out.toString();
+        System.out.println(output);
+        stopCapture();
+        assertTrue(output.contains("Unknown command."));
     }
 }
