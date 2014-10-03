@@ -8,7 +8,7 @@ description 'Käyttäjä voi luoda uuden artikkeli-tyyppin viittauksen'
 scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
     given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
         out = new ByteArrayOutputStream()
-        scanner = new Scanner("1\nasd\nasd\nasd\nasd\n2014\n\n\n\n\n\n\n4")
+        scanner = new Scanner("1\nasd\nasd\nasd\nasd\n2014\n\n\n\n\n\n\n5")
         session = new Session()
         cli = new CLI(scanner, new PrintStream(out), session)
     }
@@ -26,7 +26,7 @@ scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
 scenario "artikkeli-tyypin viittauksen luominen epäonnistuu", {
     given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
         out = new ByteArrayOutputStream()
-        scanner = new Scanner("1\nasd\nasd\nasd\nasd\n\n\nasd\n\n\n\n\n\n\n4")
+        scanner = new Scanner("1\nasd\nasd\nasd\nasd\n\n\nasd\n\n\n\n\n\n\n5")
         session = new Session()
         cli = new CLI(scanner, new PrintStream(out), session)
     }
