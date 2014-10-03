@@ -85,6 +85,14 @@ public abstract class Reference {
         // epäkelvollisen kentän arvoa?
         return data.get(key);
     }
+    
+    /**
+     * Retrieves the unique reference identifier
+     * @return The identifier
+     */
+    public String getIdentifier() {
+        return identifier;
+    }
 
     /**
      * Retrieves the whole data map.

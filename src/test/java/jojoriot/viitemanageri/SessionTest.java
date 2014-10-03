@@ -21,7 +21,7 @@ public class SessionTest {
     public void setUp() {
         session = new Session();
 
-        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+        final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         fields.put("author", "asd");
         fields.put("title", "asd");
         fields.put("journal", "title");
@@ -29,17 +29,16 @@ public class SessionTest {
         fields.put("volume", "asd");
 
         reference = new Article("test", fields);
+        session.add(reference);
     }
 
     @Test
     public void addingReferencesWorks() {
-        session.add(reference);
         assertTrue(session.getReferences().contains(reference));
     }
 
     @Test
     public void removingReferencesWorks() {
-        session.add(reference);
         session.remove(reference);
         assertFalse(session.getReferences().contains(reference));
     }
@@ -52,7 +51,7 @@ public class SessionTest {
         fields.put("journal", "Jojoriot");
         fields.put("year", "2014");
         fields.put("volume", "I");
-        session.add(reference);
+        
         session.add(new Article("test2", fields));
         try {
             session.export("test.bibtex");
@@ -74,5 +73,15 @@ public class SessionTest {
         } catch (FileNotFoundException ex) {
             fail("The test file was not written into!");
         }
+    }
+    
+    @Test
+    public void uniqueIdentifierWorksWhenIdentifierCrazyUnique() {
+        assertTrue(session.isUniqueIdentifier("asdasd"));
+    }
+    
+    @Test
+    public void uniqueIdentifierFalseWhenIdentifierNotUnique() {
+        assertFalse(session.isUniqueIdentifier("test"));
     }
 }

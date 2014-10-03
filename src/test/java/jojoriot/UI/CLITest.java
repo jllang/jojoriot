@@ -92,6 +92,17 @@ public class CLITest {
         stopCapture();
         assertEquals("identifier*: Required field!", output[8]);
     }
+    
+    @Test
+    public void identifierMustBeUnique() {
+        setupTest("1\nesimerkki\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n5", getSessionWithArticle());
+        startCapture();
+        cli.start();
+        String[] output = out.toString().split("\n");
+        System.out.println(output[0]);
+        stopCapture();
+        assertEquals("identifier*: Not a unique identifier!", output[8]);
+    }
 
     @Test
     public void invalidInputDoesNothing() {
@@ -113,7 +124,7 @@ public class CLITest {
         String[] output = out.toString().split("\n");
         System.out.println(output[0]);
         stopCapture();
-        assertEquals(">     author: Esko", output[7]);
+        assertEquals("    author: Esko", output[8]);
     }
 
     @Test

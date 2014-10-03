@@ -69,6 +69,7 @@ public final class CLI implements UI {
     private void printReference(final Reference ref) {
         final Map<String, String> referenceData = ref.getData();
 
+        out.print("    identifier: " + ref.getIdentifier() + "\n");
         for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
             if (!entry.getValue().isEmpty()) {
                 out.print("    " + entry.getKey() + ": " + entry.getValue()
@@ -99,12 +100,15 @@ public final class CLI implements UI {
 
         out.print("Mandatory field are marked with *\n");
 
-        while(identifier.equals("")){
+        while (identifier.equals("")) {
             out.print("identifier*: ");
             identifier = in.nextLine();
 
             if (identifier.equals("")) {
                 out.print("Required field!\n");
+            } else if (!session.isUniqueIdentifier(identifier)) {
+                out.print("Not a unique identifier!\n");
+                identifier = "";
             }
         }
 

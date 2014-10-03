@@ -61,4 +61,20 @@ public class Session {
         }
         pw.close();
     }
+    
+    /**
+     * Checks for potential identifier uniqueness
+     * 
+     * @param identifier
+     * @return 
+     */
+    public boolean isUniqueIdentifier(final String identifier) {
+        for (Reference ref : references) {
+            if (identifier.equals(ref.getIdentifier())) {
+                return false;
+            }
+        }
+        
+        return true;
+    }
 }
