@@ -25,7 +25,7 @@ public class Inproceedings extends Reference {
         REQUIRED_FIELDS.add("year");
         
         OPTIONAL_FIELDS.add("editor");
-        OPTIONAL_FIELDS.add("volume/number");
+        OPTIONAL_FIELDS.add("volume");
         OPTIONAL_FIELDS.add("series");
         OPTIONAL_FIELDS.add("pages");
         OPTIONAL_FIELDS.add("address");
@@ -43,17 +43,6 @@ public class Inproceedings extends Reference {
      */
     public Inproceedings(final String identifier,
             final LinkedHashMap<String, String> fields) {
-        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS);
-
-        for (final Map.Entry<String, String> entry : fields.entrySet()) {
-            super.put(entry.getKey(), entry.getValue());
-        }
-        
-        for (String field : REQUIRED_FIELDS) {
-            if (super.get(field) == null) {
-                throw new IllegalArgumentException("Missing required field \""
-                        + field + "\".");
-            }
-        }
+        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }
 }
