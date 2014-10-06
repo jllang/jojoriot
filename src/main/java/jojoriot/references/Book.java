@@ -2,12 +2,13 @@ package jojoriot.references;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Map.Entry;
 
 /**
- * An article in a conference proceedings.
+ * A book with an explicit publisher.
  */
-public class Inproceedings extends Reference {
+public class Book extends Reference {
+
     /**
      * List of required fields
      */
@@ -21,17 +22,14 @@ public class Inproceedings extends Reference {
     static {
         REQUIRED_FIELDS.add("author");
         REQUIRED_FIELDS.add("title");
-        REQUIRED_FIELDS.add("booktitle");
+        REQUIRED_FIELDS.add("publisher");
         REQUIRED_FIELDS.add("year");
         
-        OPTIONAL_FIELDS.add("editor");
         OPTIONAL_FIELDS.add("volume");
         OPTIONAL_FIELDS.add("series");
-        OPTIONAL_FIELDS.add("pages");
         OPTIONAL_FIELDS.add("address");
+        OPTIONAL_FIELDS.add("edition");
         OPTIONAL_FIELDS.add("month");
-        OPTIONAL_FIELDS.add("organization");
-        OPTIONAL_FIELDS.add("publisher");
         OPTIONAL_FIELDS.add("note");
         OPTIONAL_FIELDS.add("key");
     }
@@ -41,7 +39,7 @@ public class Inproceedings extends Reference {
      * @param identifier
      * @param fields
      */
-    public Inproceedings(final String identifier,
+    public Book(final String identifier,
             final LinkedHashMap<String, String> fields) {
         super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }
