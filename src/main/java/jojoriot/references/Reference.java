@@ -143,7 +143,17 @@ public abstract class Reference {
         }
 
         sb.append("}");
-
-        return sb.toString();
+        
+        // Replace älphäphet
+        String str = sb.toString();
+        str = str.replace("ä", "\\\"{a}");
+        str = str.replace("Ä", "\\\"{A}");
+        str = str.replace("ö", "\\\"{o}");
+        str = str.replace("Ö", "\\\"{O}");
+        str = str.replace("å", "\\aa");
+        str = str.replace("Å", "\\AA");
+        
+        
+        return str;
     }
 }
