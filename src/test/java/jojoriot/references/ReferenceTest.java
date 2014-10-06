@@ -47,7 +47,38 @@ public class ReferenceTest {
 
     public class ReferenceImpl extends Reference {
         public ReferenceImpl() {
-            super("", null, null);
+            super("", null, null, null);
         }
+    }
+
+    @Test
+    public void inproceedingsFakeout() {
+        requiredFields = new LinkedHashMap<>();
+        
+        requiredFields.put("author", "asd");
+        requiredFields.put("title", "asd");
+        requiredFields.put("booktitle", "asd");
+        requiredFields.put("year", "asd");
+        
+        Inproceedings ref = new Inproceedings("test", requiredFields);
+    }
+
+    @Test
+    public void bookFakeout() {
+        requiredFields = new LinkedHashMap<>();
+
+        requiredFields.put("author", "asd");
+        requiredFields.put("title", "asd");
+        requiredFields.put("publisher", "asd");
+        requiredFields.put("year", "asd");
+        
+        Book ref = new Book("test", requiredFields);
+    }
+    
+    @Test
+    public void testaDiaeresis() {
+        article.put("author", "äÄöÖåÅ");
+        System.out.println(article.toBibtexString());
+        assertTrue(article.toBibtexString().contains("\\\"{a}\\\"{A}\\\"{o}\\\"{O}\\aa\\AA"));
     }
 }

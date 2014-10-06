@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 
 /**
- * An article from a journal or magazine.
+ * A book with an explicit publisher.
  */
-public class Article extends Reference {
+public class Book extends Reference {
 
     /**
      * List of required fields
@@ -22,12 +22,13 @@ public class Article extends Reference {
     static {
         REQUIRED_FIELDS.add("author");
         REQUIRED_FIELDS.add("title");
-        REQUIRED_FIELDS.add("journal");
+        REQUIRED_FIELDS.add("publisher");
         REQUIRED_FIELDS.add("year");
         
         OPTIONAL_FIELDS.add("volume");
-        OPTIONAL_FIELDS.add("number");
-        OPTIONAL_FIELDS.add("pages");
+        OPTIONAL_FIELDS.add("series");
+        OPTIONAL_FIELDS.add("address");
+        OPTIONAL_FIELDS.add("edition");
         OPTIONAL_FIELDS.add("month");
         OPTIONAL_FIELDS.add("note");
         OPTIONAL_FIELDS.add("key");
@@ -38,7 +39,7 @@ public class Article extends Reference {
      * @param identifier
      * @param fields
      */
-    public Article(final String identifier,
+    public Book(final String identifier,
             final LinkedHashMap<String, String> fields) {
         super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }

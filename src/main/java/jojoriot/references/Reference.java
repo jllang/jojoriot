@@ -3,6 +3,7 @@ package jojoriot.references;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Reference is the parent class of every BibTeX reference type. It has a set of
@@ -42,10 +43,23 @@ public abstract class Reference {
      * @param data          A map containing all the obligatory fields.
      */
     Reference(final String identifier, final List<String> requiredFields,
-            final List<String> optionalFields) {
+            final List<String> optionalFields,
+            final LinkedHashMap<String, String> fields) {
         this.requiredFields = requiredFields;
         this.optionalFields = optionalFields;
         this.identifier = identifier;
+
+        for (final Entry<String, String> entry : fields.entrySet()) {
+            this.put(entry.getKey(), entry.getValue());
+        }
+
+        for (final String field : this.requiredFields) {
+            if (this.get(field) == null) {
+                throw new IllegalArgumentException("Missing required field \""
+                        + field + "\".");
+            }
+        }
+
     }
 
     /**
@@ -143,7 +157,17 @@ public abstract class Reference {
         }
 
         sb.append("}");
-
-        return sb.toString();
+        
+        // Replace älphäbet
+        String str = sb.toString();
+        str = str.replace("ä", "\\\"{a}");
+        str = str.replace("Ä", "\\\"{A}");
+        str = str.replace("ö", "\\\"{o}");
+        str = str.replace("Ö", "\\\"{O}");
+        str = str.replace("å", "\\aa");
+        str = str.replace("Å", "\\AA");
+        
+        
+        return str;
     }
 }
