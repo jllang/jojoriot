@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import jojoriot.references.Reference;
 
 /**
@@ -27,6 +28,23 @@ public class Session {
      */
     public void add(final Reference ref) {
         references.add(ref);
+    }
+
+    /**
+     * Deletes a previously added reference that matches the given key.
+     *
+     * @param identifier Identifies the reference to be deleted.
+     * @throws NoSuchElementException If the requested reference was not found.
+     */
+    public void delete(String identifier) throws NoSuchElementException {
+        for (Reference reference : references) {
+            if (reference.getIdentifier().equals(identifier)) {
+                remove(reference);
+                return;
+            }
+        }
+        throw new NoSuchElementException("Identifier \"" + identifier + "\" "
+                + "does not match any reference.");
     }
 
     /**
@@ -61,12 +79,12 @@ public class Session {
         }
         pw.close();
     }
-    
+
     /**
      * Checks for potential identifier uniqueness
-     * 
+     *
      * @param identifier
-     * @return 
+     * @return
      */
     public boolean isUniqueIdentifier(final String identifier) {
         for (Reference ref : references) {
@@ -74,7 +92,8 @@ public class Session {
                 return false;
             }
         }
-        
+
         return true;
     }
+
 }

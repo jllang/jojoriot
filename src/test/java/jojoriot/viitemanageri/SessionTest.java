@@ -3,6 +3,7 @@ package jojoriot.viitemanageri;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import jojoriot.references.Article;
 import jojoriot.references.Reference;
@@ -44,6 +45,17 @@ public class SessionTest {
     }
 
     @Test
+    public void deletingExistingReference() {
+        session.delete("test");
+        assertFalse(session.getReferences().contains(reference));
+    }
+
+    @Test(expected=NoSuchElementException.class)
+    public void deletingNonExistingReference() {
+        session.delete("testi");
+    }
+
+    @Test
     public void exportingReferencesWorks() {
         final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         fields.put("author", "Johnny");
@@ -51,7 +63,7 @@ public class SessionTest {
         fields.put("journal", "Jojoriot");
         fields.put("year", "2014");
         fields.put("volume", "I");
-        
+
         session.add(new Article("test2", fields));
         try {
             session.export("test.bibtex");
@@ -74,12 +86,12 @@ public class SessionTest {
             fail("The test file was not written into!");
         }
     }
-    
+
     @Test
     public void uniqueIdentifierWorksWhenIdentifierCrazyUnique() {
         assertTrue(session.isUniqueIdentifier("asdasd"));
     }
-    
+
     @Test
     public void uniqueIdentifierFalseWhenIdentifierNotUnique() {
         assertFalse(session.isUniqueIdentifier("test"));

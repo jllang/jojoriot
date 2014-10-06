@@ -5,6 +5,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import jojoriot.references.Article;
 import jojoriot.references.Reference;
@@ -33,9 +34,10 @@ public final class CLI implements UI {
                     + "\n2. Preview references"
                     + "\n3. Preview references in BibTeX format"
                     + "\n4. Save to file"
-                    + "\n5. Exit"
+                    + "\n5. Delete reference"
+                    + "\n6. Exit"
                     + "\n> ");
-            
+
             final int command;
             try {
                 command = Integer.parseInt(in.nextLine());
@@ -58,6 +60,9 @@ public final class CLI implements UI {
                     exportBibtex();
                     break;
                 case 5:
+                    deleteReference();
+                    break;
+                case 6:
                     out.print("Thank you for using Viitemanageri!");
                     return;
                 default:
@@ -81,20 +86,30 @@ public final class CLI implements UI {
     private void previewReferences() {
         final ArrayList<Reference> references = session.getReferences();
 
+        if (references.isEmpty()) {
+            out.println("(No references.)");
+            return;
+        }
+
         for(final Reference ref : references) {
             printReference(ref);
         }
     }
 
-    public void previewBibtext(){
+    private void previewBibtext(){
         final ArrayList<Reference> references = session.getReferences();
+
+        if (references.isEmpty()) {
+            out.println("(No references.)");
+            return;
+        }
 
         for(final Reference ref : references) {
             out.print(ref.toBibtexString() + "\n");
         }
     }
 
-    public void addReference() {
+    private void addReference() {
         String identifier = "";
         LinkedHashMap<String, String> fields = new LinkedHashMap<>();
 
@@ -148,8 +163,20 @@ public final class CLI implements UI {
             out.print("Adding reference failed!\n");
         }
     }
-    
-    public void exportBibtex() {
+
+    private void deleteReference() {
+        out.print("Which reference will be deleted?\n> ");
+        final String identifier = in.nextLine();
+        try {
+            session.delete(identifier);
+        } catch (NoSuchElementException e) {
+            out.println(e.getMessage());
+            return;
+        }
+        out.println("Reference \"" + identifier + "\" deleted.");
+    }
+
+    private void exportBibtex() {
         out.print("Enter filename:\n> ");
         String filepath = in.nextLine();
         try {
