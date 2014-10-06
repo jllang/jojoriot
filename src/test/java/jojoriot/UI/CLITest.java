@@ -72,63 +72,63 @@ public class CLITest {
      */
     @Test
     public void pressing6OnMenuExits() {
-        setupTest("6", new Session());
+        setupTest("7", new Session());
         startCapture();
         cli.start();
         String[] output = out.toString().split("\n");
         stopCapture();
-        assertEquals("> Thank you for using Viitemanageri!", output[8]);
+        assertEquals("> Thank you for using Viitemanageri!", output[9]);
     }
 
     @Test
     public void pressing1AddsReference() {
-        setupTest("1\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n6", new Session());
+        setupTest("1\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n7", new Session());
         String[] output = runTest();
-        assertEquals("Reference added:", output[10]);
+        assertEquals("Reference added:", output[11]);
     }
 
     @Test
     public void identifierMustNotBeEmpty() {
-        setupTest("1\n\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n6", new Session());
+        setupTest("1\n\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n7", new Session());
         String[] output = runTest();
-        assertEquals("identifier*: Required field!", output[9]);
+        assertEquals("identifier*: Required field!", output[10]);
     }
 
     @Test
     public void identifierMustBeUnique() {
-        setupTest("1\nesimerkki\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n6", getSessionWithArticle());
+        setupTest("1\nesimerkki\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n7", getSessionWithArticle());
         String[] output = runTest();
-        assertEquals("identifier*: Not a unique identifier!", output[9]);
+        assertEquals("identifier*: Not a unique identifier!", output[10]);
     }
 
     @Test
     public void invalidInputDoesNothing() {
-        setupTest("u\n6", new Session());
+        setupTest("u\n7", new Session());
         String[] output = runTest();
-        assertEquals("> Please input a number.", output[8]);
+        assertEquals("> Please input a number.", output[9]);
     }
 
     @Test
     public void pressing2ShowsPreview() {
         Session session = getSessionWithArticle();
-        setupTest("2\n6", session);
+        setupTest("2\n7", session);
         String[] output = runTest();
-        assertEquals("    author: Esko", output[9]);
+        assertEquals("    author: Esko", output[10]);
     }
 
     @Test
     public void pressing3ShowsBibtexPreview() {
         Session session = getSessionWithArticle();
-        setupTest("3\n6", session);
+        setupTest("3\n7", session);
         String[] output = runTest();
-        assertEquals("    author = {Esko},", output[9]);
+        assertEquals("    author = {Esko},", output[10]);
     }
 
     @Test
     public void pressing0SaysUnknownCommand() {
         // Testaus kunniaan!
         Session session = new Session();
-        setupTest("0\n6\n", session);
+        setupTest("0\n7\n", session);
         startCapture();
         cli.start();
         String output = out.toString();
@@ -140,41 +140,41 @@ public class CLITest {
     @Test
     public void pressing4ExportsFile() {
         Session session = getSessionWithArticle();
-        setupTest("4\ntesti.bibtex\n6", session);
+        setupTest("4\ntesti.bibtex\n7", session);
         String[] output = runTest();
-        assertEquals("> File exported to: testi.bibtex", output[9]);
+        assertEquals("> File exported to: testi.bibtex", output[10]);
     }
 
     @Test
     public void invalidFilePathDoesNotCreateFile() {
         Session session = getSessionWithArticle();
-        setupTest("4\n\n6", session);
+        setupTest("4\n\n7", session);
         String[] output = runTest();
-        assertEquals("> Exporting bibtex file failed!", output[9]);
+        assertEquals("> Exporting bibtex file failed!", output[10]);
     }
 
     @Test
     public void pressing5DeletesReference() {
         Session session = getSessionWithArticle();
-        setupTest("5\nesimerkki\n6", session);
+        setupTest("5\nesimerkki\n7", session);
         String[] output = runTest();
-        assertEquals("> Reference \"esimerkki\" deleted.", output[9]);
+        assertEquals("> Reference \"esimerkki\" deleted.", output[10]);
     }
 
     @Test
     public void wrongIdentifierDoesNotDeleteReference() {
         Session session = getSessionWithArticle();
-        setupTest("5\nesimerki\n6", session);
+        setupTest("5\nesimerki\n7", session);
         String[] output = runTest();
         assertEquals("> Identifier \"esimerki\" does not match any reference.",
-                output[9]);
+                output[10]);
     }
 
     @Test
     public void emptyReferenceListing() {
-        setupTest("2\n3\n6", new Session());
+        setupTest("2\n3\n7", new Session());
         String[] output = runTest();
-        assertEquals("> (No references.)",output[8]);
-        assertEquals("> (No references.)",output[16]);
+        assertEquals("> (No references.)",output[9]);
+        assertEquals("> (No references.)",output[17]);
     }
 }

@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
+import java.util.Scanner;
+import jojoriot.references.Article;
+import jojoriot.references.Book;
+import jojoriot.references.Inproceedings;
 import jojoriot.references.Reference;
 
 /**
@@ -78,6 +83,81 @@ public class Session {
             pw.println(reference.toBibtexString());
         }
         pw.close();
+    }
+    
+    /**
+     * Imports a Bibtext file.
+     * 
+     * @param path
+     * @throws FileNotFoundException 
+     */
+    public void fileImport(String path) throws FileNotFoundException{
+        String filu = "";
+        
+        Scanner sc = new Scanner(new File(path));
+        
+        while(sc.hasNext()){
+            filu += sc.nextLine();
+        }
+        
+        ArrayList<String> al = new ArrayList<String>();
+        int l = 0;
+        while(filu.length() > 1){
+            l = endOfCurlyBracket(filu, filu.indexOf("{")+1) + 1;
+            al.add(filu.substring(0,l -1));
+            filu = filu.substring(l-1);
+        }
+        references.clear();
+        
+        for(int i = 0; i < al.size();i++){
+            convertAndAddBibtextReference(al.get(i));
+        }
+    }
+    
+    /**
+     * Converts bibtext String to a Reference object and
+     * places it in references ArrayList.
+     * 
+     * @param ref 
+     */
+    private void convertAndAddBibtextReference(String ref){
+        int cur = 1;
+        String type = ref.substring(cur, cur = ref.indexOf("{"));
+        String code = ref.substring(cur + 1, cur = ref.indexOf(","));
+        String key;
+        String value;
+        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+        
+        while(ref.charAt(cur+2) != '}'){
+            key = ref.substring(cur + 2, cur = ref.indexOf("=", cur)).trim();
+            value = ref.substring(cur = ref.indexOf("{", cur) + 1, cur = endOfCurlyBracket(ref, cur) - 1);
+            fields.put(key, value);
+        }
+        
+        if(type.equalsIgnoreCase("article")){
+            references.add(new Article(code, fields));
+        }else if(type.equalsIgnoreCase("book")){
+            references.add(new Book(code, fields));
+        }else if(type.equalsIgnoreCase("inproceedings")){
+            references.add(new Inproceedings(code, fields));
+        }
+        
+    }
+    
+    /**
+     * Searches and returns the index of the closing bracket for the last
+     * opening curly bracket before the starting point.
+     * 
+     * @param s
+     * @param start
+     * @return 
+     */
+    private static int endOfCurlyBracket(String s, int start){
+        if(s.indexOf("{", start) > 0 && s.indexOf("{", start) < s.indexOf("}", start)){
+            return endOfCurlyBracket(s, endOfCurlyBracket(s, s.indexOf("{", start)+1));
+        }else{
+            return s.indexOf("}", start) +1;
+        } 
     }
 
     /**

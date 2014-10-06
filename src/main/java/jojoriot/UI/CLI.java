@@ -1,5 +1,6 @@
 package jojoriot.UI;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -35,7 +36,8 @@ public final class CLI implements UI {
                     + "\n3. Preview references in BibTeX format"
                     + "\n4. Save to file"
                     + "\n5. Delete reference"
-                    + "\n6. Exit"
+                    + "\n6. Import BibText file"
+                    + "\n7. Exit"
                     + "\n> ");
 
             final int command;
@@ -63,6 +65,9 @@ public final class CLI implements UI {
                     deleteReference();
                     break;
                 case 6:
+                    importBibtext();
+                    break;
+                case 7:
                     out.print("Thank you for using Viitemanageri!");
                     return;
                 default:
@@ -73,7 +78,8 @@ public final class CLI implements UI {
 
     private void printReference(final Reference ref) {
         final Map<String, String> referenceData = ref.getData();
-
+        
+        out.print("\n");
         out.print("    identifier: " + ref.getIdentifier() + "\n");
         for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
             if (!entry.getValue().isEmpty()) {
@@ -174,6 +180,20 @@ public final class CLI implements UI {
             return;
         }
         out.println("Reference \"" + identifier + "\" deleted.");
+    }
+    
+    private void importBibtext(){
+        out.print("Give filename (unsaved references will be lost!):\n>");
+        final String filename = in.nextLine();
+        
+        try {
+            session.fileImport(filename);
+            out.print("References in \""+filename+"\" imported!");
+        } catch (FileNotFoundException e) {
+            out.print("File not found!\n");
+        }catch (Exception e) {
+            out.print("File corrupted!\n");
+        }
     }
 
     private void exportBibtex() {
