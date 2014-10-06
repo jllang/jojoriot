@@ -74,4 +74,11 @@ public class ReferenceTest {
         
         Book ref = new Book("test", requiredFields);
     }
+    
+    @Test
+    public void testaDiaeresis() {
+        article.put("author", "äÄöÖåÅ");
+        System.out.println(article.toBibtexString());
+        assertTrue(article.toBibtexString().contains("\\\"{a}\\\"{A}\\\"{o}\\\"{O}\\aa\\AA"));
+    }
 }
