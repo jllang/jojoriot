@@ -144,7 +144,7 @@ public abstract class Reference {
 
         sb.append("}");
         
-        // Replace älphäphet
+        // Replace älphäbet
         String str = sb.toString();
         str = str.replace("ä", "\\\"{a}");
         str = str.replace("Ä", "\\\"{A}");
