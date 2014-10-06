@@ -43,17 +43,6 @@ public class Inproceedings extends Reference {
      */
     public Inproceedings(final String identifier,
             final LinkedHashMap<String, String> fields) {
-        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS);
-
-        for (final Map.Entry<String, String> entry : fields.entrySet()) {
-            super.put(entry.getKey(), entry.getValue());
-        }
-        
-        for (String field : REQUIRED_FIELDS) {
-            if (super.get(field) == null) {
-                throw new IllegalArgumentException("Missing required field \""
-                        + field + "\".");
-            }
-        }
+        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }
 }

@@ -47,7 +47,7 @@ public class ReferenceTest {
 
     public class ReferenceImpl extends Reference {
         public ReferenceImpl() {
-            super("", null, null);
+            super("", null, null, null);
         }
     }
 }
