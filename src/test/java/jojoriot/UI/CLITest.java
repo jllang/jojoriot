@@ -1,6 +1,7 @@
 package jojoriot.UI;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -113,7 +114,7 @@ public class CLITest {
         Session session = getSessionWithArticle();
         setupTest("2\n7", session);
         String[] output = runTest();
-        assertEquals("    author: Esko", output[10]);
+        assertEquals("    author: Esko", output[11]);
     }
 
     @Test
@@ -143,6 +144,8 @@ public class CLITest {
         setupTest("4\ntesti.bibtex\n7", session);
         String[] output = runTest();
         assertEquals("> File exported to: testi.bibtex", output[10]);
+        File f = new File("testi.bibtex");
+        f.delete();
     }
 
     @Test
@@ -175,6 +178,6 @@ public class CLITest {
         setupTest("2\n3\n7", new Session());
         String[] output = runTest();
         assertEquals("> (No references.)",output[9]);
-        assertEquals("> (No references.)",output[17]);
+        assertEquals("> (No references.)",output[18]);
     }
 }

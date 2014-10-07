@@ -84,6 +84,8 @@ public class SessionTest {
             assertEquals(14, lines);
         } catch (FileNotFoundException ex) {
             fail("The test file was not written into!");
+        } finally {
+            testFile.delete();
         }
     }
 

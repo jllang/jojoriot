@@ -14,6 +14,7 @@ hs_err_pid*
 # Todennäköisiä datatiedostoja:
 *.tex
 *.bibtex
+*.bib
 
 # Tätäkään ei haluta GitHubiin:
 /target/

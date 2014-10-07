@@ -8,7 +8,7 @@ description 'Käyttäjä voi tarkastella viittausta ihmisluettavassa muodossa'
 scenario "Käyttäjä tarkastelee viittausta", {
     given 'Käyttäjä valitsee viittausten esikatselun', {
         out = new ByteArrayOutputStream()
-        scanner = new Scanner("1\nasd\nasd\nasd\nasd\nasd\n\n\n\n\n\n\n3\n5")
+        scanner = new Scanner("1\nasd\nasd\nasd\nasd\nasd\n\n\n\n\n\n\n2\n7")
         session = new Session()
         cli = new CLI(scanner, new PrintStream(out), session)
     }
