@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import jojoriot.references.Article;
 import jojoriot.references.Reference;
 import static org.junit.Assert.assertEquals;
@@ -56,7 +58,7 @@ public class SessionTest {
     }
 
     @Test
-    public void exportingReferencesWorks() {
+    public void savingAndLoadingBibtexFiles() {
         final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         fields.put("author", "Johnny");
         fields.put("title", "Second test article");
@@ -66,12 +68,12 @@ public class SessionTest {
 
         session.add(new Article("test2", fields));
         try {
-            session.export("test.bibtex");
-        } catch (FileNotFoundException ex) {
+            session.save("SessionTest.bib");
+        } catch (final FileNotFoundException ex) {
             fail("Writing references to a bibtex file failed, so the test will "
                     + "end inconclusively.");
         }
-        final File testFile = new File("test.bibtex");
+        final File testFile = new File("SessionTest.bib");
         try {
             final Scanner s = new Scanner(testFile);
             int lines = 0;
@@ -84,6 +86,12 @@ public class SessionTest {
             assertEquals(14, lines);
         } catch (FileNotFoundException ex) {
             fail("The test file was not written into!");
+        }
+        try {
+            session.load("SessionTest.bib");
+        } catch (FileNotFoundException ex) {
+            fail("Reading references from a bibtex file failed, so the test "
+                    + "will end inconclusively.");
         } finally {
             testFile.delete();
         }

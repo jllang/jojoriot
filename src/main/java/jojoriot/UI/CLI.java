@@ -187,7 +187,7 @@ public final class CLI implements UI {
         final String filename = in.nextLine();
         
         try {
-            session.fileImport(filename);
+            session.load(filename);
             out.print("References in \""+filename+"\" imported!");
         } catch (FileNotFoundException e) {
             out.print("File not found!\n");
@@ -200,7 +200,7 @@ public final class CLI implements UI {
         out.print("Enter filename:\n> ");
         String filepath = in.nextLine();
         try {
-            session.export(filepath);
+            session.save(filepath);
             out.print("File exported to: " + filepath + "\n");
         } catch (IOException e) {
             out.print("Exporting bibtex file failed!\n");

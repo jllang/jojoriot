@@ -41,7 +41,7 @@ public class Session {
      * @param identifier Identifies the reference to be deleted.
      * @throws NoSuchElementException If the requested reference was not found.
      */
-    public void delete(String identifier) throws NoSuchElementException {
+    public void delete(final String identifier) throws NoSuchElementException {
         for (Reference reference : references) {
             if (reference.getIdentifier().equals(identifier)) {
                 remove(reference);
@@ -76,7 +76,7 @@ public class Session {
      * @throws java.io.FileNotFoundException If the file given by the user was
      * not found.
      */
-    public void export(final String path) throws FileNotFoundException {
+    public void save(final String path) throws FileNotFoundException {
         final File file = new File(path);
         final PrintWriter pw = new PrintWriter(file);
         for (final Reference reference : references) {
@@ -91,10 +91,10 @@ public class Session {
      * @param path
      * @throws FileNotFoundException
      */
-    public void fileImport(String path) throws FileNotFoundException{
+    public void load(final String path) throws FileNotFoundException{
         String filu = "";
 
-        Scanner sc = new Scanner(new File(path));
+        final Scanner sc = new Scanner(new File(path));
 
         while(sc.hasNext()){
             filu += sc.nextLine();
@@ -120,10 +120,10 @@ public class Session {
      *
      * @param ref
      */
-    private void convertAndAddBibtextReference(String ref){
+    private void convertAndAddBibtextReference(final String ref){
         int cur = 1;
-        String type = ref.substring(cur, cur = ref.indexOf("{"));
-        String code = ref.substring(cur + 1, cur = ref.indexOf(","));
+        final String type = ref.substring(cur, cur = ref.indexOf("{"));
+        final String code = ref.substring(cur + 1, cur = ref.indexOf(","));
         String key;
         String value;
         LinkedHashMap<String, String> fields = new LinkedHashMap<>();
@@ -136,9 +136,9 @@ public class Session {
 
         if(type.equalsIgnoreCase("article")){
             references.add(new Article(code, fields));
-        }else if(type.equalsIgnoreCase("book")){
+        } else if(type.equalsIgnoreCase("book")){
             references.add(new Book(code, fields));
-        }else if(type.equalsIgnoreCase("inproceedings")){
+        } else if(type.equalsIgnoreCase("inproceedings")){
             references.add(new Inproceedings(code, fields));
         }
 
@@ -152,7 +152,7 @@ public class Session {
      * @param start
      * @return
      */
-    private static int endOfCurlyBracket(String s, int start){
+    private static int endOfCurlyBracket(final String s, final int start){
         if(s.indexOf("{", start) > 0 && s.indexOf("{", start) < s.indexOf("}", start)){
             return endOfCurlyBracket(s, endOfCurlyBracket(s, s.indexOf("{", start)+1));
         }else{
