@@ -16,8 +16,6 @@ import jojoriot.references.Reference;
  *
  */
 public class Session {
-    // Tämä luokka pitää stubata CLI-testejä varten.
-
     /**
      * List of references made in this session.
      */
@@ -67,6 +65,23 @@ public class Session {
     public ArrayList<Reference> getReferences() {
         return references;
     }
+    
+    /**
+     * 
+     * @param identifier
+     * @return 
+     */
+    public Reference getReference(final String identifier)
+            throws NoSuchElementException {
+        for (Reference ref : references) {
+            if (identifier.equals(ref.getIdentifier())) {
+                return ref;
+            }
+        }
+        
+        throw new NoSuchElementException("Identifier \"" + identifier + "\" "
+                + "does not match any reference.");
+    }
 
     /**
      * Exports all the references to a bibtex file specified by the argument.
@@ -93,7 +108,7 @@ public class Session {
      */
     public void load(final String path) throws FileNotFoundException{
         String filu = "";
-
+ 
         final Scanner sc = new Scanner(new File(path));
 
         while(sc.hasNext()){
@@ -124,22 +139,24 @@ public class Session {
         int cur = 1;
         final String type = ref.substring(cur, cur = ref.indexOf("{"));
         final String code = ref.substring(cur + 1, cur = ref.indexOf(","));
-        String key;
-        String value;
+        String key, value;
+        
         LinkedHashMap<String, String> fields = new LinkedHashMap<>();
-
+        fields.put("identifier", code);
+        
         while(ref.charAt(cur+2) != '}'){
             key = ref.substring(cur + 2, cur = ref.indexOf("=", cur)).trim();
-            value = ref.substring(cur = ref.indexOf("{", cur) + 1, cur = endOfCurlyBracket(ref, cur) - 1);
+            value = ref.substring(cur = ref.indexOf("{", cur) + 1,
+                    cur = endOfCurlyBracket(ref, cur) - 1);
             fields.put(key, value);
         }
 
         if(type.equalsIgnoreCase("article")){
-            references.add(new Article(code, fields));
+            references.add(new Article(fields));
         } else if(type.equalsIgnoreCase("book")){
-            references.add(new Book(code, fields));
+            references.add(new Book(fields));
         } else if(type.equalsIgnoreCase("inproceedings")){
-            references.add(new Inproceedings(code, fields));
+            references.add(new Inproceedings(fields));
         }
 
     }

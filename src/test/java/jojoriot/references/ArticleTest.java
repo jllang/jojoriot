@@ -13,25 +13,26 @@ public class ArticleTest {
     @Before
     public void setUp() {
         fields = new LinkedHashMap<>();
+        fields.put("identifier", "test");
         fields.put("author", "asd");
         fields.put("title", "asd");
         fields.put("journal", "title");
         fields.put("year", "asd");
         fields.put("volume", "asd");
         
-        article = new Article("test", fields);
+        article = new Article(fields);
     }
     
     @Test(expected=IllegalArgumentException.class)
     public void constructorFailsOnEmptyRequiredField() {
         fields.put("author", "");
-        article = new Article("test", fields);
+        article = new Article(fields);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void constructorFailsOnInvalidField() {
         fields.put("asd", "");
-        article = new Article("test", fields);
+        article = new Article(fields);
     }
     
     @Test
@@ -54,6 +55,6 @@ public class ArticleTest {
     @Test(expected=IllegalArgumentException.class)
     public void constructorFailsOnMissingRequiredField() {
         fields.remove("author");
-        article = new Article("test", fields);
+        article = new Article(fields);
     }
 }

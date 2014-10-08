@@ -2,7 +2,6 @@ package jojoriot.references;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * An article in a conference proceedings.
@@ -19,6 +18,8 @@ public class Inproceedings extends Reference {
     public static final ArrayList<String> OPTIONAL_FIELDS = new ArrayList<>();
     
     static {
+        REQUIRED_FIELDS.add("identifier");
+        
         REQUIRED_FIELDS.add("author");
         REQUIRED_FIELDS.add("title");
         REQUIRED_FIELDS.add("booktitle");
@@ -38,11 +39,9 @@ public class Inproceedings extends Reference {
 
     /**
      *
-     * @param identifier
      * @param fields
      */
-    public Inproceedings(final String identifier,
-            final LinkedHashMap<String, String> fields) {
-        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
+    public Inproceedings(final LinkedHashMap<String, String> fields) {
+        super(REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }
 }

@@ -2,7 +2,6 @@ package jojoriot.references;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 /**
  * A book with an explicit publisher.
@@ -20,6 +19,8 @@ public class Book extends Reference {
     public static final ArrayList<String> OPTIONAL_FIELDS = new ArrayList<>();
     
     static {
+        REQUIRED_FIELDS.add("identifier");
+        
         REQUIRED_FIELDS.add("author");
         REQUIRED_FIELDS.add("title");
         REQUIRED_FIELDS.add("publisher");
@@ -36,11 +37,9 @@ public class Book extends Reference {
 
     /**
      *
-     * @param identifier
      * @param fields
      */
-    public Book(final String identifier,
-            final LinkedHashMap<String, String> fields) {
-        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
+    public Book(final LinkedHashMap<String, String> fields) {
+        super(REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }
 }

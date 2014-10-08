@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import jojoriot.references.Article;
+import jojoriot.references.Book;
+import jojoriot.references.Inproceedings;
 import jojoriot.references.Reference;
 import jojoriot.viitemanageri.Session;
 
@@ -37,7 +40,8 @@ public final class CLI implements UI {
                     + "\n4. Save to file"
                     + "\n5. Delete reference"
                     + "\n6. Import BibText file"
-                    + "\n7. Exit"
+                    + "\n7. Edit reference"
+                    + "\n8. Exit"
                     + "\n> ");
 
             final int command;
@@ -68,6 +72,9 @@ public final class CLI implements UI {
                     importBibtext();
                     break;
                 case 7:
+                    editReference();
+                    break;
+                case 8:
                     out.print("Thank you for using Viitemanageri!");
                     return;
                 default:
@@ -80,7 +87,6 @@ public final class CLI implements UI {
         final Map<String, String> referenceData = ref.getData();
         
         out.print("\n");
-        out.print("    identifier: " + ref.getIdentifier() + "\n");
         for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
             if (!entry.getValue().isEmpty()) {
                 out.print("    " + entry.getKey() + ": " + entry.getValue()
@@ -115,25 +121,60 @@ public final class CLI implements UI {
         }
     }
 
+    private void editReference() {
+        out.print("Which reference will be edited?\n> ");
+        final String identifier = in.nextLine();
+        try {
+            Reference ref = session.getReference(identifier);
+            
+            for (final Map.Entry<String, String> entry :
+                    ref.getData().entrySet()) {
+                String field = entry.getKey();
+                field += ref.isRequiredField(field) ? "*" : "";
+                out.print(field + " (" + entry.getValue() + "): ");
+                
+                String value = in.nextLine();
+                if (value.equals(" ")) {
+                    try {
+                        ref.delete(entry.getKey());
+                    } catch (IllegalArgumentException e) {
+                        out.println(e.getMessage());
+                        return;
+                    }
+                } else if (!value.isEmpty()) {
+                    ref.put(entry.getKey(), entry.getValue());
+                }
+            }
+        } catch (NoSuchElementException e) {
+            out.println(e.getMessage());
+            return;
+        }
+        
+        out.println("Reference \"" + identifier + "\" edited.");
+    }
+
     private void addReference() {
-        String identifier = "";
         LinkedHashMap<String, String> fields = new LinkedHashMap<>();
 
-        out.print("Mandatory field are marked with *\n");
-
-        while (identifier.equals("")) {
-            out.print("identifier*: ");
-            identifier = in.nextLine();
-
-            if (identifier.equals("")) {
-                out.print("Required field!\n");
-            } else if (!session.isUniqueIdentifier(identifier)) {
-                out.print("Not a unique identifier!\n");
-                identifier = "";
-            }
+        out.print("1. Article\n2. Book\n3. Inproceedings\n> ");
+        int type = in.nextInt();
+        
+        List<String> required, optional;
+        if (type == 1) {
+            required = Article.REQUIRED_FIELDS;
+            optional = Article.OPTIONAL_FIELDS;
+        } else if (type == 2) {
+            required = Book.REQUIRED_FIELDS;
+            optional = Book.OPTIONAL_FIELDS;
+        } else {
+            required = Inproceedings.REQUIRED_FIELDS;
+            optional = Inproceedings.OPTIONAL_FIELDS;
         }
-
-        for(String field : Article.REQUIRED_FIELDS) {
+        
+        in.nextLine();
+        
+        out.print("Mandatory field are marked with *\n");        
+        for (String field : required) {
             String value = "";
 
             while(value.equals("")) {
@@ -143,12 +184,18 @@ public final class CLI implements UI {
                 if (value.equals("")) {
                     out.print("Required field!\n");
                 }
+                
+                if (field.equals("identifier") && 
+                        !session.isUniqueIdentifier(value)) {
+                    out.print("Not a unique identifier!\n");
+                    value = "";
+                }
             }
 
             fields.put(field, value);
         }
 
-        for(String field : Article.OPTIONAL_FIELDS) {
+        for (String field : optional) {
             out.print(field+": ");
             String value = in.nextLine();
 
@@ -158,12 +205,19 @@ public final class CLI implements UI {
         out.print("\n");
 
         try {
-            Article article = new Article(identifier, fields);
-
-            session.add(article);
+            Reference ref;
+            if (type == 1) {
+                ref = new Article(fields);
+            } else if (type == 2) {
+                ref = new Book(fields);
+            } else {
+                ref = new Inproceedings(fields); 
+            }
+            
+            session.add(ref);
 
             out.print("Reference added:\n");
-            printReference(article);
+            printReference(ref);
 
         } catch (IllegalArgumentException e) {
             out.print("Adding reference failed!\n");

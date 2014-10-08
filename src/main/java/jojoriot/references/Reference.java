@@ -24,12 +24,6 @@ public abstract class Reference {
     private final List<String> optionalFields;
 
     /**
-     * A code that identifies each BibTeX references.
-     * Entered by user.
-     */
-    private final String identifier;
-
-    /**
      * A key-value-mapping containing the BibTeX data of this reference object.
      */
     private final LinkedHashMap<String, String> data = new LinkedHashMap<>();
@@ -42,12 +36,11 @@ public abstract class Reference {
      * @param optionalFields A set containing all the optional field keys
      * @param data          A map containing all the obligatory fields.
      */
-    Reference(final String identifier, final List<String> requiredFields,
+    Reference(final List<String> requiredFields,
             final List<String> optionalFields,
             final LinkedHashMap<String, String> fields) {
         this.requiredFields = requiredFields;
         this.optionalFields = optionalFields;
-        this.identifier = identifier;
 
         for (final Entry<String, String> entry : fields.entrySet()) {
             this.put(entry.getKey(), entry.getValue());
@@ -59,7 +52,10 @@ public abstract class Reference {
                         + field + "\".");
             }
         }
-
+    }
+    
+    public boolean isRequiredField(final String key) {
+        return requiredFields.contains(key);
     }
 
     /**
@@ -70,7 +66,7 @@ public abstract class Reference {
      * @param value The value of the BibTeX field.
      * @throws IllegalArgumentException If the key-value-pair is invalid.
      */
-    public void put(final String key, final String value)
+    public final void put(final String key, final String value)
             throws IllegalArgumentException {
         if (requiredFields.contains(key) || optionalFields.contains(key)) {
             if (requiredFields.contains(key) && value.equals("")) {
@@ -94,7 +90,7 @@ public abstract class Reference {
      * @return      The value associated with the given key. <tt>null</tt> if
      * there is no such value.
      */
-    public String get(final String key) {
+    public final String get(final String key) {
         // Pitäisiköhän heittää exception jos käyttäjä yrittää pyytää
         // epäkelvollisen kentän arvoa?
         return data.get(key);
@@ -105,7 +101,7 @@ public abstract class Reference {
      * @return The identifier
      */
     public String getIdentifier() {
-        return identifier;
+        return data.get("identifier");
     }
 
     /**
@@ -122,9 +118,9 @@ public abstract class Reference {
      *
      * @param key A key specifying which key-value-pair is to be removed.
      */
-    public void delete(final String key) {
+    public void delete(final String key) throws IllegalArgumentException {
         if (requiredFields.contains(key)) {
-            throw new IllegalArgumentException("Can't delete a required" +
+            throw new IllegalArgumentException("Can't delete a required " +
                     "field \"" + key + "\" from reference type \"" +
                     this.getClass().getSimpleName() + "\".");
         }
@@ -143,11 +139,12 @@ public abstract class Reference {
         sb.append("@");
         sb.append(getClass().getSimpleName());
         sb.append("{");
-        sb.append(identifier);
+        sb.append(getIdentifier());
         sb.append(",\n");
 
         for (final Map.Entry<String, String> entry : data.entrySet()) {
-            if (!entry.getValue().equals("")) {
+            if (!entry.getValue().equals("") &&
+                    !entry.getKey().equals("identifier")) {
                 sb.append("    ");
                 sb.append(entry.getKey());
                 sb.append(" = {");

@@ -25,13 +25,14 @@ public class SessionTest {
         session = new Session();
 
         final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+        fields.put("identifier", "test");
         fields.put("author", "asd");
         fields.put("title", "asd");
         fields.put("journal", "title");
         fields.put("year", "asd");
         fields.put("volume", "asd");
 
-        reference = new Article("test", fields);
+        reference = new Article(fields);
         session.add(reference);
     }
 
@@ -60,13 +61,14 @@ public class SessionTest {
     @Test
     public void savingAndLoadingBibtexFiles() {
         final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+        fields.put("identifier", "test2");
         fields.put("author", "Johnny");
         fields.put("title", "Second test article");
         fields.put("journal", "Jojoriot");
         fields.put("year", "2014");
         fields.put("volume", "I");
 
-        session.add(new Article("test2", fields));
+        session.add(new Article(fields));
         try {
             session.save("SessionTest.bib");
         } catch (final FileNotFoundException ex) {

@@ -2,7 +2,6 @@ package jojoriot.references;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map.Entry;
 
 /**
  * An article from a journal or magazine.
@@ -20,6 +19,8 @@ public class Article extends Reference {
     public static final ArrayList<String> OPTIONAL_FIELDS = new ArrayList<>();
     
     static {
+        REQUIRED_FIELDS.add("identifier");
+        
         REQUIRED_FIELDS.add("author");
         REQUIRED_FIELDS.add("title");
         REQUIRED_FIELDS.add("journal");
@@ -35,11 +36,9 @@ public class Article extends Reference {
 
     /**
      *
-     * @param identifier
      * @param fields
      */
-    public Article(final String identifier,
-            final LinkedHashMap<String, String> fields) {
-        super(identifier, REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
+    public Article(final LinkedHashMap<String, String> fields) {
+        super(REQUIRED_FIELDS, OPTIONAL_FIELDS, fields);
     }
 }

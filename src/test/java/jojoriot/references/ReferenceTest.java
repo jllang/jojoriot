@@ -13,18 +13,19 @@ import org.junit.Test;
  */
 public class ReferenceTest {
     Article article;
-    LinkedHashMap<String, String> requiredFields;
+    LinkedHashMap<String, String> fields;
 
     @Before
     public void setUp() {
-        requiredFields = new LinkedHashMap<>();
+        fields = new LinkedHashMap<>();
 
-        requiredFields.put("author", "asd");
-        requiredFields.put("title", "asd");
-        requiredFields.put("journal", "asd");
-        requiredFields.put("year", "asd");
+        fields.put("identifier", "asd");
+        fields.put("author", "asd");
+        fields.put("title", "asd");
+        fields.put("journal", "asd");
+        fields.put("year", "asd");
 
-        article = new Article("asd", requiredFields);
+        article = new Article(fields);
     }
 
     @Test
@@ -40,39 +41,41 @@ public class ReferenceTest {
     public void kaikenDatanSaaTuotua() {
         final Map<String, String> data = article.getData();
         for (final Map.Entry<String, String> entry : data.entrySet()) {
-            assertTrue(requiredFields.containsKey(entry.getKey()));
-            assertEquals(requiredFields.get(entry.getKey()), entry.getValue());
+            assertTrue(fields.containsKey(entry.getKey()));
+            assertEquals(fields.get(entry.getKey()), entry.getValue());
         }
     }
 
     public class ReferenceImpl extends Reference {
         public ReferenceImpl() {
-            super("", null, null, null);
+            super(null, null, null);
         }
     }
 
     @Test
     public void inproceedingsFakeout() {
-        requiredFields = new LinkedHashMap<>();
+        fields = new LinkedHashMap<>();
         
-        requiredFields.put("author", "asd");
-        requiredFields.put("title", "asd");
-        requiredFields.put("booktitle", "asd");
-        requiredFields.put("year", "asd");
+        fields.put("identifier", "test");
+        fields.put("author", "asd");
+        fields.put("title", "asd");
+        fields.put("booktitle", "asd");
+        fields.put("year", "asd");
         
-        Inproceedings ref = new Inproceedings("test", requiredFields);
+        Inproceedings ref = new Inproceedings(fields);
     }
 
     @Test
     public void bookFakeout() {
-        requiredFields = new LinkedHashMap<>();
+        fields = new LinkedHashMap<>();
 
-        requiredFields.put("author", "asd");
-        requiredFields.put("title", "asd");
-        requiredFields.put("publisher", "asd");
-        requiredFields.put("year", "asd");
+        fields.put("identifier", "test");
+        fields.put("author", "asd");
+        fields.put("title", "asd");
+        fields.put("publisher", "asd");
+        fields.put("year", "asd");
         
-        Book ref = new Book("test", requiredFields);
+        Book ref = new Book(fields);
     }
     
     @Test
