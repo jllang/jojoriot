@@ -53,7 +53,7 @@ public abstract class Reference {
             }
         }
     }
-    
+
     public boolean isRequiredField(final String key) {
         return requiredFields.contains(key);
     }
@@ -95,7 +95,7 @@ public abstract class Reference {
         // epäkelvollisen kentän arvoa?
         return data.get(key);
     }
-    
+
     /**
      * Retrieves the unique reference identifier
      * @return The identifier
@@ -129,7 +129,7 @@ public abstract class Reference {
     }
 
     /**
-     * Builds and returns a BibText formatted reference.
+     * Builds and returns a BibTex-formatted reference.
      *
      * @return
      */
@@ -154,7 +154,7 @@ public abstract class Reference {
         }
 
         sb.append("}");
-        
+
         // Replace älphäbet
         String str = sb.toString();
         str = str.replace("ä", "\\\"{a}");
@@ -163,8 +163,27 @@ public abstract class Reference {
         str = str.replace("Ö", "\\\"{O}");
         str = str.replace("å", "\\aa");
         str = str.replace("Å", "\\AA");
-        
-        
+
+
         return str;
+    }
+
+    /**
+     * Returns a multiline string that represents the state of the object.
+     *
+     * @return A Human-readable string containing field names and values.
+     */
+    public String toPlaintextString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append('\n');
+        for(final Map.Entry<String, String> entry : data.entrySet()) {
+            sb.append("    ");
+            sb.append(entry.getKey());
+            sb.append(':');
+            sb.append(' ');
+            sb.append(entry.getValue());
+            sb.append('\n');
+        }
+        return sb.toString();
     }
 }

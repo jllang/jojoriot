@@ -13,7 +13,6 @@ public final class Main {
      * @param args the command line arguments
      */
     public static void main(final String[] args) {
-        //final Console io = new Console();
         final Scanner in = new Scanner(System.in);
         final PrintStream out = new PrintStream(System.out);
         final Session session = new Session();

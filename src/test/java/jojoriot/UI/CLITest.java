@@ -80,19 +80,25 @@ public class CLITest {
     }
 
     @Test
+    public void cannotAddNonExistentReferenceType() {
+        setupTest("1\n6\n8", new Session());
+        assertTrue(runTest().contains("A non-existent option \"6\" selected!"));
+    }
+
+    @Test
     public void pressing1AddsArticle() {
         setupTest("1\n1\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n8", new Session());
         String output = runTest();
         assertTrue(output.contains("Reference added:"));
     }
-    
+
     @Test
     public void pressing1AddsBook() {
         setupTest("1\n2\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n8", new Session());
         String output = runTest();
         assertTrue(output.contains("Reference added:"));
     }
-    
+
     @Test
     public void pressing1AddsInproceedings() {
         setupTest("1\n3\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n8", new Session());
@@ -190,28 +196,28 @@ public class CLITest {
         String output = runTest();
         assertTrue(output.contains("> (No references.)"));
     }
-    
+
     @Test
     public void missingReferenceEdit() {
         setupTest("7\nasd\n8", getSessionWithArticle());
         String output = runTest();
         assertTrue(output.contains("does not match any reference."));
     }
-    
+
     @Test
     public void invalidReferenceEdit() {
         setupTest("7\nesimerkki\n \n8", getSessionWithArticle());
         String output = runTest();
         assertTrue(output.contains("Can't delete a required "));
     }
-    
+
     @Test
     public void validReferenceEdit() {
         setupTest("7\nesimerkki\nasd\n\n\n\n\n8", getSessionWithArticle());
         String output = runTest();
         assertTrue(output.contains("Reference \"esimerkki\" edited."));
     }
-    
+
     @Test
     public void openValidFile() {
         setupTest("6\ntest.bibtex\n8", new Session());

@@ -83,18 +83,6 @@ public final class CLI implements UI {
         }
     }
 
-    private void printReference(final Reference ref) {
-        final Map<String, String> referenceData = ref.getData();
-        
-        out.print("\n");
-        for(final Map.Entry<String, String> entry : referenceData.entrySet()) {
-            if (!entry.getValue().isEmpty()) {
-                out.print("    " + entry.getKey() + ": " + entry.getValue()
-                        + "\n");
-            }
-        }
-    }
-
     private void previewReferences() {
         final ArrayList<Reference> references = session.getReferences();
 
@@ -104,7 +92,7 @@ public final class CLI implements UI {
         }
 
         for(final Reference ref : references) {
-            printReference(ref);
+            out.println(ref.toPlaintextString());
         }
     }
 
@@ -125,19 +113,19 @@ public final class CLI implements UI {
         out.print("Which reference will be edited?\n> ");
         final String identifier = in.nextLine();
         try {
-            Reference ref = session.getReference(identifier);
-            
+            final Reference ref = session.getReference(identifier);
+
             for (final Map.Entry<String, String> entry :
                     ref.getData().entrySet()) {
                 String field = entry.getKey();
                 field += ref.isRequiredField(field) ? "*" : "";
                 out.print(field + " (" + entry.getValue() + "): ");
-                
-                String value = in.nextLine();
+
+                final String value = in.nextLine();
                 if (value.equals(" ")) {
                     try {
                         ref.delete(entry.getKey());
-                    } catch (IllegalArgumentException e) {
+                    } catch (final IllegalArgumentException e) {
                         out.println(e.getMessage());
                         return;
                     }
@@ -145,47 +133,54 @@ public final class CLI implements UI {
                     ref.put(entry.getKey(), entry.getValue());
                 }
             }
-        } catch (NoSuchElementException e) {
+        } catch (final NoSuchElementException e) {
             out.println(e.getMessage());
             return;
         }
-        
+
         out.println("Reference \"" + identifier + "\" edited.");
     }
 
     private void addReference() {
-        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+        final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
 
         out.print("1. Article\n2. Book\n3. Inproceedings\n> ");
-        int type = in.nextInt();
-        
-        List<String> required, optional;
-        if (type == 1) {
-            required = Article.REQUIRED_FIELDS;
-            optional = Article.OPTIONAL_FIELDS;
-        } else if (type == 2) {
-            required = Book.REQUIRED_FIELDS;
-            optional = Book.OPTIONAL_FIELDS;
-        } else {
-            required = Inproceedings.REQUIRED_FIELDS;
-            optional = Inproceedings.OPTIONAL_FIELDS;
+        final int type = in.nextInt();
+
+        final List<String> required, optional;
+        switch (type) {
+            case 1:
+                required = Article.REQUIRED_FIELDS;
+                optional = Article.OPTIONAL_FIELDS;
+                break;
+            case 2:
+                required = Book.REQUIRED_FIELDS;
+                optional = Book.OPTIONAL_FIELDS;
+                break;
+            case 3:
+                required = Inproceedings.REQUIRED_FIELDS;
+                optional = Inproceedings.OPTIONAL_FIELDS;
+                break;
+            default:
+                out.println("A non-existent option \"" + type + "\" selected!");
+                return;
         }
-        
+
         in.nextLine();
-        
-        out.print("Mandatory field are marked with *\n");        
-        for (String field : required) {
+
+        out.print("Mandatory field are marked with *\n");
+        for (final String field : required) {
             String value = "";
 
-            while(value.equals("")) {
-                out.print(field+"*: ");
+            while (value.equals("")) {
+                out.print(field + "*: ");
                 value = in.nextLine();
 
                 if (value.equals("")) {
                     out.print("Required field!\n");
                 }
-                
-                if (field.equals("identifier") && 
+
+                if (field.equals("identifier") &&
                         !session.isUniqueIdentifier(value)) {
                     out.print("Not a unique identifier!\n");
                     value = "";
@@ -195,7 +190,7 @@ public final class CLI implements UI {
             fields.put(field, value);
         }
 
-        for (String field : optional) {
+        for (final String field : optional) {
             out.print(field+": ");
             String value = in.nextLine();
 
@@ -205,22 +200,32 @@ public final class CLI implements UI {
         out.print("\n");
 
         try {
-            Reference ref;
-            if (type == 1) {
-                ref = new Article(fields);
-            } else if (type == 2) {
-                ref = new Book(fields);
-            } else {
-                ref = new Inproceedings(fields); 
+            final Reference ref;
+            switch (type) {
+                case 1:
+                    ref = new Article(fields);
+                    break;
+                case 2:
+                    ref = new Book(fields);
+                    break;
+                case 3:
+                    ref = new Inproceedings(fields);
+                    break;
+                default:
+                    // This cannot happen since the range of the value has
+                    // already been checked.
+                    throw new AssertionError();
             }
-            
+
             session.add(ref);
 
             out.print("Reference added:\n");
-            printReference(ref);
+            out.println(ref.toPlaintextString());
 
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             out.print("Adding reference failed!\n");
+        } catch (final AssertionError f) {
+
         }
     }
 
@@ -235,11 +240,11 @@ public final class CLI implements UI {
         }
         out.println("Reference \"" + identifier + "\" deleted.");
     }
-    
+
     private void importBibtext(){
         out.print("Give filename (unsaved references will be lost!):\n>");
         final String filename = in.nextLine();
-        
+
         try {
             session.load(filename);
             out.print("References in \""+filename+"\" imported!");
@@ -252,7 +257,7 @@ public final class CLI implements UI {
 
     private void exportBibtex() {
         out.print("Enter filename:\n> ");
-        String filepath = in.nextLine();
+        final String filepath = in.nextLine();
         try {
             session.save(filepath);
             out.print("File exported to: " + filepath + "\n");

@@ -40,7 +40,7 @@ public class Session {
      * @throws NoSuchElementException If the requested reference was not found.
      */
     public void delete(final String identifier) throws NoSuchElementException {
-        for (Reference reference : references) {
+        for (final Reference reference : references) {
             if (reference.getIdentifier().equals(identifier)) {
                 remove(reference);
                 return;
@@ -65,20 +65,20 @@ public class Session {
     public ArrayList<Reference> getReferences() {
         return references;
     }
-    
+
     /**
-     * 
+     *
      * @param identifier
-     * @return 
+     * @return
      */
     public Reference getReference(final String identifier)
             throws NoSuchElementException {
-        for (Reference ref : references) {
+        for (final Reference ref : references) {
             if (identifier.equals(ref.getIdentifier())) {
                 return ref;
             }
         }
-        
+
         throw new NoSuchElementException("Identifier \"" + identifier + "\" "
                 + "does not match any reference.");
     }
@@ -107,25 +107,26 @@ public class Session {
      * @throws FileNotFoundException
      */
     public void load(final String path) throws FileNotFoundException{
-        String filu = "";
- 
         final Scanner sc = new Scanner(new File(path));
+        final StringBuilder sb = new StringBuilder();
 
         while(sc.hasNext()){
-            filu += sc.nextLine();
+            sb.append(sc.nextLine());
         }
 
-        ArrayList<String> al = new ArrayList<String>();
-        int l = 0;
-        while(filu.length() > 1){
-            l = endOfCurlyBracket(filu, filu.indexOf("{")+1) + 1;
-            al.add(filu.substring(0,l -1));
-            filu = filu.substring(l-1);
+        String content = sb.toString();
+
+        final ArrayList<String> bibtex = new ArrayList<>();
+        int split;
+        while(content.length() > 1){
+            split = endOfCurlyBracket(content, content.indexOf("{") + 1) + 1;
+            bibtex.add(content.substring(0, split - 1));
+            content = content.substring(split - 1);
         }
         references.clear();
 
-        for(int i = 0; i < al.size();i++){
-            convertAndAddBibtextReference(al.get(i));
+        for (final String rawObject : bibtex) {
+            convertAndAddBibtextReference(rawObject);
         }
     }
 
@@ -140,23 +141,27 @@ public class Session {
         final String type = ref.substring(cur, cur = ref.indexOf("{"));
         final String code = ref.substring(cur + 1, cur = ref.indexOf(","));
         String key, value;
-        
-        LinkedHashMap<String, String> fields = new LinkedHashMap<>();
+
+        final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
         fields.put("identifier", code);
-        
-        while(ref.charAt(cur+2) != '}'){
+
+        while (ref.charAt(cur + 2) != '}'){
             key = ref.substring(cur + 2, cur = ref.indexOf("=", cur)).trim();
             value = ref.substring(cur = ref.indexOf("{", cur) + 1,
                     cur = endOfCurlyBracket(ref, cur) - 1);
             fields.put(key, value);
         }
 
-        if(type.equalsIgnoreCase("article")){
-            references.add(new Article(fields));
-        } else if(type.equalsIgnoreCase("book")){
-            references.add(new Book(fields));
-        } else if(type.equalsIgnoreCase("inproceedings")){
-            references.add(new Inproceedings(fields));
+        switch (type.toLowerCase()) {
+            case "article":
+                references.add(new Article(fields));
+                break;
+            case "book":
+                references.add(new Book(fields));
+            case "inproceedings":
+                references.add(new Inproceedings(fields));
+            default:
+                throw new AssertionError();
         }
 
     }
@@ -170,10 +175,12 @@ public class Session {
      * @return
      */
     private static int endOfCurlyBracket(final String s, final int start){
-        if(s.indexOf("{", start) > 0 && s.indexOf("{", start) < s.indexOf("}", start)){
-            return endOfCurlyBracket(s, endOfCurlyBracket(s, s.indexOf("{", start)+1));
+        final int leftBracket = s.indexOf("{", start);
+        final int rightBracket = s.indexOf("}", start);
+        if(leftBracket > 0 && leftBracket < rightBracket){
+            return endOfCurlyBracket(s, endOfCurlyBracket(s, leftBracket + 1));
         }else{
-            return s.indexOf("}", start) +1;
+            return rightBracket + 1;
         }
     }
 
@@ -184,7 +191,7 @@ public class Session {
      * @return
      */
     public boolean isUniqueIdentifier(final String identifier) {
-        for (Reference ref : references) {
+        for (final Reference ref : references) {
             if (identifier.equals(ref.getIdentifier())) {
                 return false;
             }
