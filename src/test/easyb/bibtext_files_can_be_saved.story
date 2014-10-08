@@ -10,7 +10,7 @@ description 'Filu talteen'
 scenario "Tallennus onnistuu", {
     given 'Käyttäjä valitsee viittausten tallentamisen', {
         out = new ByteArrayOutputStream()
-        scanner = new Scanner("1\nasd\nasd\nasd\nasd\nasd\n\n\n\n\n\n\n4\nasd.bib\n7")
+        scanner = new Scanner("1\n1\nasd\nasd\nasd\nasd\nasd\n\n\n\n\n\n\n4\nasd.bib\n8")
         session = new Session()
         cli = new CLI(scanner, new PrintStream(out), session)
     }

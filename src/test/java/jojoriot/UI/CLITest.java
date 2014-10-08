@@ -213,7 +213,7 @@ public class CLITest {
     }
     
     @Test
-    public void kirjottakaaJokuMuu() {
+    public void openValidFile() {
         setupTest("6\ntest.bibtex\n8", new Session());
         String output = runTest();
     }

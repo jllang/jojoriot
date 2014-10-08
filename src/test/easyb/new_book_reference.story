@@ -3,12 +3,12 @@ import jojoriot.UI.*
 import jojoriot.references.*
 import jojoriot.viitemanageri.*
 
-description 'Käyttäjä voi luoda uuden artikkeli-tyyppin viittauksen'
+description 'Käyttäjä voi luoda uuden book-tyyppin viittauksen'
 
-scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
-    given 'Käyttäjä valitsee uuden artikkeli-viittauksen luomisen', {
+scenario "Käyttäjä luo uuden book-tyypin viittauksen", {
+    given 'Käyttäjä valitsee uuden book-viittauksen luomisen', {
         out = new ByteArrayOutputStream()
-        scanner = new Scanner("1\n1\nasd\nasd\nasd\nasd\n2014\n\n\n\n\n\n\n8")
+        scanner = new Scanner("1\n2\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\nBlaa\n8")
         session = new Session()
         cli = new CLI(scanner, new PrintStream(out), session)
     }
@@ -21,5 +21,6 @@ scenario "Käyttäjä luo uuden artikkeli-tyypin viittauksen", {
         output = out.toString()
         output.shouldHave("Reference added:")
     }
+
 }
 
