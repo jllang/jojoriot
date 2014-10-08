@@ -108,4 +108,14 @@ public class SessionTest {
     public void uniqueIdentifierFalseWhenIdentifierNotUnique() {
         assertFalse(session.isUniqueIdentifier("test"));
     }
+    
+    @Test
+    public void getReferenceWorksAmazinglyWell() {
+        Reference ref = session.getReference("test");
+    }
+    
+    @Test(expected=NoSuchElementException.class)
+    public void getReferenceFailsOnNonIdentifiers() {
+        Reference ref = session.getReference("asdasdasd");
+    }
 }
