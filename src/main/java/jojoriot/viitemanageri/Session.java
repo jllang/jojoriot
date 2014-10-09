@@ -115,6 +115,13 @@ public class Session {
         }
 
         String content = sb.toString();
+        
+        content = content.replace("\\\"{a}", "ä");
+        content = content.replace("\\\"{A}", "Ä");
+        content = content.replace("\\\"{o}", "ö");
+        content = content.replace("\\\"{O}", "Ö");
+        content = content.replace("\\aa", "å");
+        content = content.replace("\\AA", "Å");
 
         final ArrayList<String> bibtex = new ArrayList<>();
         int split;
@@ -158,8 +165,10 @@ public class Session {
                 break;
             case "book":
                 references.add(new Book(fields));
+                break;
             case "inproceedings":
                 references.add(new Inproceedings(fields));
+                break;
             default:
                 throw new AssertionError();
         }

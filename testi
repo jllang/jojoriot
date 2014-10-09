@@ -1,0 +1,14 @@
+@Article{asdd,
+    author = {asd},
+    title = {k\"{a}\"{a}k},
+    journal = {asd},
+    year = {asd},
+    volume = {asd},
+    number = {d},
+}
+@Inproceedings{sdf,
+    author = {sd},
+    title = {lol},
+    booktitle = {asd},
+    year = {sd},
+}
