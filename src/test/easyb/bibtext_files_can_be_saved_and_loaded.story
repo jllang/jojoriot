@@ -34,7 +34,7 @@ scenario "Tallennus onnistuu", {
 scenario "Tiedoston lataaminen onnistuu", {
     given 'Käyttäjä valitsee viittausten tallentamisen', {
         out = new ByteArrayOutputStream()
-        scanner = new Scanner("6\nasd.bib\n3\n\n8")
+        scanner = new Scanner("1\n1\nasd\nasd\nasd\nasd\nasd\n\n\n\n\n\n\n4\nasd.bib\n6\nasd.bib\n3\n\n8")
         session = new Session()
         cli = new CLI(scanner, new PrintStream(out), session)
     }
