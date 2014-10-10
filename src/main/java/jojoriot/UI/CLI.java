@@ -130,7 +130,7 @@ public final class CLI implements UI {
                         return;
                     }
                 } else if (!value.isEmpty()) {
-                    ref.put(entry.getKey(), entry.getValue());
+                    ref.put(entry.getKey(), value);
                 }
             }
         } catch (final NoSuchElementException e) {

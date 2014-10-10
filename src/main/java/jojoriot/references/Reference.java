@@ -177,12 +177,14 @@ public abstract class Reference {
         final StringBuilder sb = new StringBuilder();
         sb.append('\n');
         for(final Map.Entry<String, String> entry : data.entrySet()) {
-            sb.append("    ");
-            sb.append(entry.getKey());
-            sb.append(':');
-            sb.append(' ');
-            sb.append(entry.getValue());
-            sb.append('\n');
+            if (!entry.getValue().isEmpty()) {
+                sb.append("    ");
+                sb.append(entry.getKey());
+                sb.append(':');
+                sb.append(' ');
+                sb.append(entry.getValue());
+                sb.append('\n');
+            }
         }
         return sb.toString();
     }
