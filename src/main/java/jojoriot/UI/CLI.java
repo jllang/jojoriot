@@ -83,6 +83,10 @@ public final class CLI implements UI {
         }
     }
 
+    /**
+     * Prints a human readable presentation of the references.
+     * 
+    */
     private void previewReferences() {
         final ArrayList<Reference> references = session.getReferences();
 
@@ -96,6 +100,9 @@ public final class CLI implements UI {
         }
     }
 
+    /**
+     *  Prints a bibtex presentation of the references.
+     */
     private void previewBibtext(){
         final ArrayList<Reference> references = session.getReferences();
 
@@ -109,6 +116,9 @@ public final class CLI implements UI {
         }
     }
 
+    /**
+     * Edits a reference already added to session.
+     */
     private void editReference() {
         out.print("Which reference will be edited?\n> ");
         final String identifier = in.nextLine();
@@ -141,6 +151,9 @@ public final class CLI implements UI {
         out.println("Reference \"" + identifier + "\" edited.");
     }
 
+    /**
+     * Adds a new reference to the session.
+     */
     private void addReference() {
         final LinkedHashMap<String, String> fields = new LinkedHashMap<>();
 
@@ -229,6 +242,9 @@ public final class CLI implements UI {
         }
     }
 
+    /**
+     * Deletes a reference from the session.
+     */
     private void deleteReference() {
         out.print("Which reference will be deleted?\n> ");
         final String identifier = in.nextLine();
@@ -241,6 +257,9 @@ public final class CLI implements UI {
         out.println("Reference \"" + identifier + "\" deleted.");
     }
 
+    /**
+     * Imports references from a bibtex file.
+     */
     private void importBibtext(){
         out.print("Give filename (unsaved references will be lost!):\n>");
         final String filename = in.nextLine();
@@ -255,6 +274,9 @@ public final class CLI implements UI {
         }
     }
 
+    /**
+     * Exports the references into a bibtex file.
+     */
     private void exportBibtex() {
         out.print("Enter filename:\n> ");
         final String filepath = in.nextLine();
