@@ -54,6 +54,11 @@ public abstract class Reference {
         }
     }
 
+    /**
+     * Checks if a field is required.
+     * @param key   Name of the field to test
+     * @return 
+     */
     public boolean isRequiredField(final String key) {
         return requiredFields.contains(key);
     }
